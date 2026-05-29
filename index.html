@@ -2163,6 +2163,582 @@
     .eyebrow       { margin-bottom: 10px; }
     .section-title { margin-bottom: 10px; }
   }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE HAMBURGER BUTTON — base styles (hidden on desktop)
+     ═══════════════════════════════════════════════════════════════ */
+  .mob-btn {
+    display: none;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+  }
+  .mob-btn span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--text-body);
+    transition: background 0.3s;
+    border-radius: 1px;
+  }
+  nav.transparent .mob-btn span { background: var(--warm-white); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE NAV OVERLAY — base styles
+     ═══════════════════════════════════════════════════════════════ */
+  .mob-nav {
+    position: fixed;
+    inset: 0;
+    background: var(--text-body);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 40px 52px;
+    transform: translateX(-100%);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .mob-nav.open { transform: translateX(0); pointer-events: all; }
+
+  .mob-nav-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mob-nav-close span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: rgba(255,255,255,0.55);
+    position: absolute;
+    border-radius: 1px;
+    transition: background 0.3s;
+  }
+  .mob-nav-close span:first-child { transform: rotate(45deg); }
+  .mob-nav-close span:last-child  { transform: rotate(-45deg); }
+  .mob-nav-close:hover span { background: rgba(255,255,255,0.90); }
+
+  .mob-nav-logo {
+    position: absolute;
+    top: 22px;
+    left: 40px;
+  }
+  .mob-nav-logo img { height: 34px; width: auto; filter: brightness(10); }
+
+  .mob-nav-links { display: flex; flex-direction: column; }
+  .mob-link {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 7vw, 38px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.68);
+    text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    letter-spacing: -0.01em;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+    display: block;
+  }
+  .mob-link:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+  .mob-link:hover,
+  .mob-link:active { color: rgba(255,255,255,0.95); padding-left: 6px; }
+
+  .mob-nav-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.26);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE & TABLET PORTRAIT — Full vertical storytelling experience
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px), (max-width: 1024px) and (orientation: portrait) {
+
+    /* ══ CRITICAL: Reset desktop animation classes (start opacity:0 — mobile never triggers them) ══ */
+    .sec-anim,
+    [class*="sec-anim--"],
+    .co-anim,
+    [class*="co-anim--"],
+    .venture-anim,
+    [class*="venture-anim--"],
+    .venture-reveal,
+    [class*="venture-reveal--"] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      transition-delay: 0s !important;
+    }
+
+    /* ── Fix leadership photo zoom (desktop uses scale(2.2)) ── */
+    .person-photo,
+    .leadership-right .person-card:nth-child(1) .person-photo,
+    .leadership-right .person-card:nth-child(2) .person-photo,
+    .leadership-right .person-card:nth-child(3) .person-photo,
+    .person-card:hover .person-photo {
+      transform: none !important;
+      filter: grayscale(0%) brightness(1) !important;
+    }
+
+    /* ── Prevent horizontal overflow ── */
+    .scroll-wrapper, .panel, #ventures, .venture-panel,
+    #philosophy, #leadership, #investors, #contact,
+    .philosophy-intro, .philosophy-rows,
+    .leadership-left, .leadership-right,
+    .inv-left, .inv-right,
+    .contact-left, .contact-right {
+      overflow-x: hidden !important;
+    }
+
+    html { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; }
+    body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; }
+
+    .scroll-wrapper {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .panel {
+      width: 100% !important;
+      flex-shrink: unset !important;
+      display: block !important;
+    }
+
+    .progress-bar { display: none !important; }
+
+    .nav-links, .nav-btn { display: none !important; }
+    nav {
+      position: fixed !important;
+      height: 60px !important;
+      padding: 0 16px !important;
+      justify-content: center !important;
+      background: rgba(245,242,239,0.96) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06) !important;
+    }
+    nav.transparent {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+    }
+    .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo img { height: 34px !important; }
+    .mob-btn { display: flex !important; }
+
+    #hero {
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 560px;
+      position: relative !important;
+    }
+    .hero-inner {
+      flex-direction: column !important;
+      padding: 0 24px 88px !important;
+      justify-content: flex-end !important;
+      align-items: flex-start !important;
+      gap: 20px !important;
+      height: 100% !important;
+    }
+    .hero-left { padding: 0 !important; }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: clamp(32px, 9.5vw, 56px) !important; }
+    .hero-eyebrow { margin-bottom: 10px !important; }
+    .hero-right { max-width: 100% !important; }
+    .hero-body { font-size: 14px !important; line-height: 1.75 !important; }
+    .hero-buttons { flex-direction: column !important; gap: 10px !important; width: 100% !important; }
+    .hero-btn-1, .hero-btn-2 {
+      text-align: center !important;
+      padding: 14px 24px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .co-editorial { display: none !important; }
+    .co-atmosphere { display: none !important; }
+
+    #company {
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 580px !important;
+      position: relative !important;
+      display: block !important;
+      overflow: hidden !important;
+    }
+    .co-img-wrap {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .co-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center 38% !important;
+    }
+    .co-img-vignette {
+      display: block !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.18) 60%, transparent 100%) !important;
+    }
+    .co-editorial {
+      position: absolute !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-end !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 44px 28px 60px !important;
+      background: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      transform: none !important;
+    }
+    .co-editorial .eyebrow { color: rgba(255,255,255,0.56) !important; }
+    .co-editorial .section-title {
+      font-size: clamp(28px, 8.5vw, 46px) !important;
+      color: var(--warm-white) !important;
+    }
+    .co-editorial .section-title em { color: rgba(255,255,255,0.58) !important; }
+    .co-editorial .lead-text,
+    .co-editorial .body-text,
+    .co-editorial .pull-quote { display: none !important; }
+    .co-atmosphere {
+      display: flex !important;
+      position: absolute !important;
+      top: 68px !important;
+      left: 0 !important;
+      right: 0 !important;
+      padding: 20px 28px !important;
+      gap: 20px 32px !important;
+      flex-wrap: wrap !important;
+      z-index: 2 !important;
+    }
+    .co-atmo-num { font-size: 22px !important; color: rgba(255,255,255,0.88) !important; }
+    .co-atmo-num--word { font-size: 18px !important; }
+    .co-atmo-label { color: rgba(255,255,255,0.48) !important; }
+
+    #ventures {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+    }
+    .venture-panel {
+      width: 100% !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 560px !important;
+      flex-shrink: unset !important;
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-end !important;
+    }
+    .venture-panel--split { flex-direction: column !important; }
+    .venture-split-img {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .venture-bg { position: absolute !important; inset: 0 !important; background-size: cover !important; }
+    .venture-card-content {
+      position: relative !important;
+      z-index: 2 !important;
+      padding: 0 24px 52px !important;
+    }
+    .venture-intro-wrap {
+      position: relative !important;
+      z-index: 2 !important;
+      padding: 0 24px 52px !important;
+      left: auto !important; right: auto !important; bottom: auto !important;
+    }
+    .venture-big-num {
+      font-size: clamp(60px, 17vw, 88px) !important;
+      top: 20px !important;
+      bottom: auto !important;
+      left: 18px !important;
+    }
+    .venture-intro-h { font-size: clamp(28px, 9vw, 48px) !important; }
+    .venture-title { font-size: clamp(26px, 8vw, 40px) !important; }
+    .venture-desc { font-size: 13px !important; max-width: 100% !important; }
+    .venture-tags { flex-wrap: wrap !important; gap: 6px !important; }
+    .venture-tag { font-size: 8px !important; padding: 5px 10px !important; letter-spacing: 0.10em !important; }
+
+    #philosophy {
+      display: block !important;
+      height: auto !important;
+      min-height: unset !important;
+    }
+    .philosophy-intro {
+      padding: 96px 28px 36px !important;
+      width: 100% !important;
+      height: auto !important;
+    }
+    .philosophy-rows {
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 0 0 56px !important;
+      width: 100% !important;
+      height: auto !important;
+      flex: unset !important;
+    }
+    .phil-row {
+      flex: unset !important;
+      height: auto !important;
+      min-height: 80px !important;
+      padding: 16px 28px !important;
+      gap: 16px !important;
+      border-top: 1px solid rgba(255,255,255,0.10) !important;
+      border-bottom: none !important;
+      align-items: center !important;
+    }
+    .phil-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.10) !important; }
+    .phil-num {
+      font-size: clamp(40px, 10vw, 60px) !important;
+      width: 64px !important;
+      line-height: 0.9 !important;
+      transform: none !important;
+    }
+    .phil-text { font-size: 14px !important; line-height: 1.55 !important; }
+
+    #leadership {
+      display: block !important;
+      height: auto !important;
+    }
+    .leadership-left {
+      padding: 96px 28px 36px !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
+    }
+    .leadership-right {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: visible !important;
+      padding: 0 0 56px !important;
+      gap: 0 !important;
+    }
+    .person-card {
+      flex-direction: row !important;
+      padding: 20px 28px !important;
+      border-top: 1px solid rgba(139,135,138,0.16) !important;
+      border-bottom: none !important;
+      border-left: none !important;
+      gap: 18px !important;
+      min-height: unset !important;
+      height: auto !important;
+      width: 100% !important;
+      align-items: flex-start !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+    }
+    .person-card:last-child { border-bottom: 1px solid rgba(139,135,138,0.16) !important; }
+    .person-photo-wrap {
+      width: 72px !important;
+      height: 88px !important;
+      flex-shrink: 0 !important;
+      min-width: 72px !important;
+    }
+    .person-photo { object-fit: cover !important; object-position: center top !important; }
+    .person-initials { display: none !important; }
+    .person-info {
+      padding: 0 !important;
+      flex: 1 !important;
+      transform: none !important;
+      opacity: 1 !important;
+      overflow: visible !important;
+      position: static !important;
+    }
+    .person-name { font-size: 15px !important; margin-bottom: 2px !important; }
+    .person-role { font-size: 10px !important; letter-spacing: 0.12em !important; margin-bottom: 8px !important; }
+    .person-bio { font-size: 12px !important; line-height: 1.65 !important; max-height: none !important; }
+
+    #investors {
+      display: block !important;
+      height: auto !important;
+      min-height: unset !important;
+    }
+    .inv-left { padding: 96px 28px 40px !important; width: 100% !important; }
+    .inv-right { padding: 0 28px 64px !important; width: 100% !important; }
+    .inv-vline { left: 18px !important; }
+    .inv-dot   { left: 18px !important; width: 7px !important; height: 7px !important; }
+    .inv-hline { left: 22px !important; width: 24px !important; }
+    .inv-row {
+      flex: unset !important;
+      height: auto !important;
+      min-height: 72px !important;
+      padding-left: 56px !important;
+      gap: 14px !important;
+    }
+    .inv-num   { font-size: clamp(34px, 8.5vw, 48px) !important; width: 52px !important; transform: none !important; line-height: 1 !important; }
+    .inv-item-text { font-size: 14px !important; line-height: 1.62 !important; }
+    .inv-title { font-size: clamp(24px, 7vw, 38px) !important; }
+
+    #contact {
+      display: block !important;
+      height: auto !important;
+      min-height: unset !important;
+    }
+    .contact-left  { padding: 96px 28px 48px !important; width: 100% !important; }
+    .contact-right { padding: 36px 28px 64px !important; width: 100% !important; }
+    .contact-title { font-size: clamp(30px, 9vw, 44px) !important; }
+    .contact-intro { font-size: 14px !important; max-width: 100% !important; }
+    .form-row { grid-template-columns: 1fr !important; gap: 0 !important; }
+    .btn-submit { width: 100% !important; padding: 16px !important; box-sizing: border-box !important; }
+
+    footer {
+      position: relative !important;
+      bottom: auto !important; left: auto !important; right: auto !important;
+      width: 100% !important;
+      height: auto !important;
+      padding: 16px 24px !important;
+      justify-content: center !important;
+      background: var(--warm-white) !important;
+      border-top: 1px solid rgba(0,0,0,0.07) !important;
+    }
+    footer.dark {
+      background: var(--text-body) !important;
+      border-top: 1px solid rgba(255,255,255,0.06) !important;
+    }
+    .footer-left, .footer-right { display: none !important; }
+    .footer-center { display: flex !important; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE CINEMATIC REVEAL — GPU-accelerated, 60fps
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px), (max-width: 1024px) and (orientation: portrait) {
+    .mob-reveal {
+      opacity: 0;
+      transform: translate3d(0, 28px, 0);
+      will-change: opacity, transform;
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mob-reveal.mob-in { opacity: 1; transform: translate3d(0, 0, 0); }
+    .mob-scale {
+      opacity: 0;
+      transform: scale3d(1.06, 1.06, 1);
+      will-change: opacity, transform;
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mob-scale.mob-in { opacity: 1; transform: scale3d(1, 1, 1); }
+    .mob-fade { opacity: 0; will-change: opacity; transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .mob-fade.mob-in { opacity: 1; }
+    .mob-link--active { color: rgba(255,255,255,0.95) !important; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TABLET PORTRAIT — Dedicated premium layout
+     ═══════════════════════════════════════════════════════════════ */
+  @media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+
+    nav { height: 68px !important; padding: 0 32px !important; }
+    .nav-logo img { height: 40px !important; }
+    .mob-btn { left: 24px !important; }
+
+    .hero-inner { padding: 0 56px 108px !important; gap: 28px !important; }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: clamp(44px, 6.5vw, 64px) !important; }
+    .hero-body { font-size: 16px !important; max-width: 520px !important; line-height: 1.8 !important; }
+    .hero-buttons { flex-direction: row !important; width: auto !important; gap: 16px !important; }
+    .hero-btn-1, .hero-btn-2 { width: auto !important; }
+
+    .co-atmosphere { top: 80px !important; padding: 24px 56px !important; gap: 28px 44px !important; }
+    .co-atmo-num { font-size: 28px !important; }
+    .co-atmo-num--word { font-size: 22px !important; }
+    .co-editorial { padding: 52px 56px 80px !important; }
+    .co-editorial .section-title { font-size: clamp(36px, 5.2vw, 52px) !important; }
+    .co-editorial .lead-text {
+      display: block !important;
+      font-size: 15px !important;
+      line-height: 1.78 !important;
+      color: rgba(255,255,255,0.62) !important;
+      max-width: 540px !important;
+      margin-top: 14px !important;
+    }
+
+    .venture-card-content { padding: 0 56px 76px !important; }
+    .venture-intro-wrap   { padding: 0 56px 76px !important; }
+    .venture-title { font-size: clamp(32px, 4.8vw, 48px) !important; }
+    .venture-intro-h { font-size: clamp(34px, 5.2vw, 52px) !important; }
+    .venture-desc { font-size: 15px !important; }
+    .venture-tag { font-size: 9px !important; padding: 6px 12px !important; }
+    .venture-big-num { left: 48px !important; }
+
+    .philosophy-intro { padding: 100px 56px 44px !important; }
+    .philosophy-rows  { padding: 0 0 64px !important; }
+    .phil-row { padding: 20px 56px !important; min-height: 96px !important; }
+    .phil-num { font-size: clamp(52px, 7.5vw, 80px) !important; width: 84px !important; }
+    .phil-text { font-size: 16px !important; }
+
+    .leadership-left { padding: 100px 56px 44px !important; }
+    .leadership-right { padding: 0 0 64px !important; }
+    .person-card { padding: 24px 56px !important; gap: 24px !important; }
+    .person-photo-wrap { width: 88px !important; height: 108px !important; min-width: 88px !important; }
+    .person-name { font-size: 17px !important; }
+    .person-role { font-size: 11px !important; }
+    .person-bio  { font-size: 13px !important; line-height: 1.7 !important; }
+
+    .inv-left  { padding: 100px 56px 48px !important; }
+    .inv-right { padding: 0 56px 72px !important; }
+    .inv-title { font-size: clamp(30px, 4.5vw, 46px) !important; }
+    .inv-desc  { font-size: 16px !important; }
+    .inv-vline { left: 24px !important; }
+    .inv-dot   { left: 24px !important; }
+    .inv-hline { left: 28px !important; width: 28px !important; }
+    .inv-row   { padding-left: 72px !important; min-height: 88px !important; }
+    .inv-num   { font-size: clamp(40px, 6vw, 56px) !important; width: 64px !important; }
+    .inv-item-text { font-size: 16px !important; }
+
+    .contact-left  { padding: 100px 56px 56px !important; }
+    .contact-right { padding: 44px 56px 80px !important; }
+    .contact-title { font-size: clamp(36px, 5.5vw, 52px) !important; }
+    .contact-intro { font-size: 16px !important; }
+    .form-row { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+    .btn-submit { width: auto !important; }
+
+    footer { padding: 18px 40px !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -2172,6 +2748,10 @@
 
 <!-- NAV -->
 <nav id="mainNav" class="transparent">
+  <!-- Mobile hamburger (hidden on desktop via CSS) -->
+  <button class="mob-btn" id="mobMenuBtn" aria-label="Open navigation">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-logo">
     <img src="https://static.wixstatic.com/media/7e63cd_df42f5632baf408fa7679ef65cfa7f4a~mv2.png" style="height:45px;width:auto;">
   </div>
@@ -2186,6 +2766,26 @@
   </ul>
   <a href="#" class="nav-btn" onclick="scrollToPanel(6)">Get In Touch</a>
 </nav>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mob-nav" id="mobNav" aria-hidden="true">
+  <div class="mob-nav-logo">
+    <img src="https://static.wixstatic.com/media/7e63cd_df42f5632baf408fa7679ef65cfa7f4a~mv2.png" style="height:34px;width:auto;filter:brightness(10);">
+  </div>
+  <button class="mob-nav-close" id="mobNavClose" aria-label="Close navigation">
+    <span></span><span></span>
+  </button>
+  <nav class="mob-nav-links">
+    <a class="mob-link" href="#hero">Home</a>
+    <a class="mob-link" href="#company">Company</a>
+    <a class="mob-link" href="#ventures">Ventures</a>
+    <a class="mob-link" href="#philosophy">Philosophy</a>
+    <a class="mob-link" href="#leadership">Leadership</a>
+    <a class="mob-link" href="#investors">Investors</a>
+    <a class="mob-link" href="#contact">Contact</a>
+  </nav>
+  <div class="mob-nav-footer">D6 Hospitality · Luxury Ventures</div>
+</div>
 
 <!-- SCROLL WRAPPER -->
 <div class="scroll-wrapper" id="scrollWrapper">
@@ -2658,6 +3258,12 @@ const nav         = document.getElementById('mainNav');
 const footer      = document.getElementById('mainFooter');
 const progressBar = document.getElementById('progressBar');
 
+/* ── Mobile detection: phone or tablet in portrait ── */
+function isMobile() {
+  return window.innerWidth <= 768 ||
+    (window.innerWidth <= 1024 && window.innerHeight > window.innerWidth);
+}
+
 const NAV_MAP = [0, 1, 2, 2, 2, 2, 3, 4, 5, 6];
 
 /* ── Compositional ventures layout:
@@ -2736,6 +3342,7 @@ let isScrolling = false;
 let scrollAccumulator = 0;
 
 window.addEventListener('wheel', (e) => {
+  if (isMobile()) return;  /* let native vertical scroll handle it */
   e.preventDefault();
   scrollAccumulator += Math.abs(e.deltaY) + Math.abs(e.deltaX);
   if (isScrolling) return;
@@ -2746,8 +3353,9 @@ window.addEventListener('wheel', (e) => {
   setTimeout(() => { isScrolling = false; scrollAccumulator = 0; }, 950);
 }, { passive: false });
 
-window.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX; });
+window.addEventListener('mousedown', (e) => { if (isMobile()) return; isDragging = true; startX = e.clientX; });
 window.addEventListener('mouseup',   (e) => {
+  if (isMobile()) return;
   if (!isDragging) return;
   isDragging = false;
   const diff = startX - e.clientX;
@@ -2755,23 +3363,165 @@ window.addEventListener('mouseup',   (e) => {
 });
 
 window.addEventListener('keydown', (e) => {
+  if (isMobile()) return;
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') scrollToStop(currentStop + 1);
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   scrollToStop(currentStop - 1);
 });
 
 let touchStartX = 0;
-window.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+window.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
 window.addEventListener('touchend',   (e) => {
+  if (isMobile()) return;  /* mobile uses native vertical scroll */
   const diff = touchStartX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 60) scrollToStop(diff > 0 ? currentStop + 1 : currentStop - 1);
 });
 
-// On resize, recalculate offset for current stop (peek positions are vw-relative)
+/* On resize — recalculate desktop offset OR clear transform on mobile */
 window.addEventListener('resize', () => {
-  scrollToStop(currentStop, false);
+  if (isMobile()) {
+    wrapper.style.transform  = 'none';
+    wrapper.style.transition = 'none';
+  } else {
+    scrollToStop(currentStop, false);
+  }
 });
 
-scrollToStop(0, false);
+/* Init — desktop uses horizontal scroll position; mobile uses native flow */
+if (isMobile()) {
+  wrapper.style.transform  = 'none';
+  wrapper.style.transition = 'none';
+} else {
+  scrollToStop(0, false);
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE NAVIGATION — hamburger open / close / scroll
+   ══════════════════════════════════════════════════ */
+(function initMobileNav() {
+  const mobMenuBtn  = document.getElementById('mobMenuBtn');
+  const mobNav      = document.getElementById('mobNav');
+  const mobNavClose = document.getElementById('mobNavClose');
+
+  function openMobNav() {
+    mobNav.classList.add('open');
+    mobNav.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobNav() {
+    mobNav.classList.remove('open');
+    mobNav.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (mobMenuBtn)  mobMenuBtn.addEventListener('click', openMobNav);
+  if (mobNavClose) mobNavClose.addEventListener('click', closeMobNav);
+
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').replace('#', '');
+      const target   = document.getElementById(targetId);
+      closeMobNav();
+      if (target) {
+        setTimeout(() => {
+          const navHeight = 60;
+          const top = target.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }, 380);
+      }
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE CINEMATIC REVEAL SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+(function initMobileCinema() {
+  if (!isMobile()) return;
+
+  const slides = [
+    { sel: '#hero .hero-left',        delay: 180 },
+    { sel: '#hero .hero-right',       delay: 380 },
+    { sel: '#company .co-atmosphere', delay: 180 },
+    { sel: '#company .co-editorial',  delay: 280 },
+    { sel: '.venture-intro-wrap',     delay: 160 },
+    { sel: '.philosophy-intro',       delay: 100 },
+    { sel: '.leadership-left',        delay: 100 },
+    { sel: '.inv-left',               delay: 100 },
+    { sel: '.contact-left',           delay: 100 },
+    { sel: '.contact-right',          delay: 200 },
+  ];
+  slides.forEach(({ sel, delay }) => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.classList.add('mob-reveal');
+      el.style.transitionDelay = delay + 'ms';
+    });
+  });
+
+  const staggered = [
+    { sel: '.phil-row',            step: 75 },
+    { sel: '.inv-row',             step: 60 },
+    { sel: '.person-card',         step: 80 },
+    { sel: '.venture-card-content',step: 0  },
+  ];
+  staggered.forEach(({ sel, step }) => {
+    const parentIdx = new Map();
+    document.querySelectorAll(sel).forEach(el => {
+      const parent = el.parentElement;
+      const i = parentIdx.get(parent) || 0;
+      parentIdx.set(parent, i + 1);
+      el.classList.add('mob-reveal');
+      el.style.transitionDelay = (i * step) + 'ms';
+    });
+  });
+
+  document.querySelectorAll('.venture-panel .venture-bg').forEach(el => {
+    el.classList.add('mob-scale');
+  });
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('mob-in');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -24px 0px' });
+
+  document.querySelectorAll('.mob-reveal, .mob-scale, .mob-fade')
+    .forEach(el => revealObs.observe(el));
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('#hero .mob-reveal, #hero .mob-scale').forEach(el => {
+        el.classList.add('mob-in');
+      });
+    }, 100);
+  });
+
+  const sectionIds = ['hero','company','ventures','philosophy','leadership','investors','contact'];
+  const spyObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.mob-link').forEach(link => {
+          link.classList.toggle('mob-link--active',
+            link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.45 });
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) spyObs.observe(el);
+  });
+
+  let heroHeight = document.getElementById('hero')?.offsetHeight || window.innerHeight;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('transparent', window.scrollY < heroHeight * 0.6);
+  }, { passive: true });
+
+})();
 </script>
 
 <!-- ─── NEW CURSOR SYSTEM ─── -->
