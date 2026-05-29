@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D6 Hospitality Ventures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --warm-white: #faf9f8;
+    --cream: #f5f2ef;
+    --primary: #8d878a;
+    --text-body: #3a3738;
+    --black: #0d0c0c;
+    --primary-pale: #d6d2d4;
+  }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: var(--warm-white);
+    font-family: 'Jost', sans-serif;
+    color: var(--text-body);
+    cursor: none;
+  }
+
+  /* ─── HORIZONTAL SCROLL WRAPPER ─── */
+  .scroll-wrapper {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    height: 100dvh;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ─── PANEL BASE ─── */
+  .panel {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    z-index: 1000;
+    background: var(--warm-white);
+    transition: background 0.3s ease;
+  }
+  nav.transparent { background: transparent; }
+  nav.transparent .nav-links a,
+  nav.transparent .nav-btn { color: var(--warm-white); border-color: var(--warm-white); }
+  nav.transparent .nav-logo img { filter: brightness(10); }
+  nav:not(.transparent) .nav-logo img {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(8%) saturate(285%) hue-rotate(314deg) brightness(92%) contrast(85%);
+  }
+
+  .nav-logo img { height: 40px; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-links a.active {
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  .nav-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+    border: 1px solid var(--text-body);
+    padding: 10px 24px;
+    transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease;
+  }
+  .nav-btn:hover { background: var(--text-body); color: var(--warm-white); letter-spacing: 0.18em; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    z-index: 998;
+    background: var(--warm-white);
+    border-top: 1px solid var(--primary-pale);
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-body);
+    transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+  /* footer.dark intentionally removed — background stays #faf9f8 on all panels */
+
+  /* ─── SCROLL TO EXPLORE — arrow micro-interaction ─── */
+  .ste-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    letter-spacing: 0.22em;
+  }
+  .ste-arrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    animation: arrowGlide 2.2s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .ste-arrow {
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--text-body);
+    position: relative;
+  }
+  .ste-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-right: 1px solid var(--text-body);
+    border-top: 1px solid var(--text-body);
+    transform: rotate(45deg);
+  }
+  @keyframes arrowGlide {
+    0%   { transform: translateX(0);    opacity: 0.9; }
+    50%  { transform: translateX(9px);  opacity: 0.25; }
+    100% { transform: translateX(0);    opacity: 0.9; }
+  }
+  .footer-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    letter-spacing: 0.18em;
+  }
+  .footer-right {
+    display: flex;
+    gap: 32px;
+  }
+  .footer-right a {
+    color: inherit;
+    text-decoration: none;
+    letter-spacing: 0.14em;
+    transition: opacity 0.2s ease;
+  }
+  .footer-right a:hover { opacity: 0.6; }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    display: none;
+  }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-indicator {
+    position: fixed;
+    bottom: 50px;
+    right: 48px;
+    width: 40px;
+    height: 2px;
+    background: var(--primary);
+    z-index: 1000;
+    transition: all 0.3s ease;
+  }
+  .scroll-indicator::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid var(--primary);
+    border-top: 1px solid var(--primary);
+    transform: rotate(45deg);
+  }
+
+  /* ─── HERO PANEL — CINEMATIC REDESIGN ─── */
+  #hero { background: var(--black); }
+
+  /* Background — video hero */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.72;
+    transform: scale(1.0);
+    transform-origin: center center;
+    animation: heroBgSettle 3.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .hero-bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+  #hero:hover .hero-bg { transform: scale(1.04); }
+
+  /* Layered overlay — cinematic left vignette + bottom lift */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,  rgba(13,12,12,0.68) 0%, rgba(13,12,12,0.12) 58%, rgba(13,12,12,0.48) 100%),
+      linear-gradient(to top,    rgba(13,12,12,0.78) 0%, transparent 52%);
+  }
+
+  /* Two-column editorial grid */
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    padding: 0 64px 104px;
+    align-items: end;
+  }
+
+  /* LEFT — eyebrow + heading */
+  .hero-left { padding-right: 64px; }
+
+  /* RIGHT — body + buttons, right-aligned */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 40px;
+    text-align: right;
+  }
+
+  /* Eyebrow */
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--primary-pale);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: heroReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--primary-pale);
+    flex-shrink: 0;
+  }
+
+  /* Heading */
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+    line-height: 1.04;
+    color: var(--warm-white);
+    margin: 0;
+  }
+  .hero-title-line1 {
+    display: block;
+    font-size: 76px;
+    font-style: normal;
+    letter-spacing: -0.015em;
+    opacity: 0;
+    animation: heroReveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+  }
+  .hero-title-line2 {
+    display: block;
+    font-size: 76px;
+    font-style: normal;
+    letter-spacing: -0.015em;
+    color: var(--warm-white);
+    opacity: 0;
+    animation: heroReveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards;
+  }
+
+  /* Body paragraph — right aligned */
+  .hero-body {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.72);
+    text-align: right;
+    opacity: 0;
+    animation: heroFadeUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards;
+  }
+
+  /* Button group — side by side, full width */
+  .hero-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+  }
+  .hero-btn-1 {
+    opacity: 0;
+    animation: heroFadeUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards;
+  }
+  .hero-btn-2 {
+    opacity: 0;
+    animation: heroFadeUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) 1.45s forwards;
+  }
+
+  /* Ghost button (outlined) */
+  .btn-outline {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--warm-white);
+    border: 1px solid var(--warm-white);
+    padding: 18px 20px;
+    transition: border-color 0.4s ease, background 0.4s ease, letter-spacing 0.4s ease;
+    cursor: pointer;
+    background: transparent;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+    white-space: nowrap;
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: #ffffff;
+    letter-spacing: 0.18em;
+  }
+
+  /* Filled button (warm-white, dark text) */
+  .btn-filled {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+    border: 1px solid var(--warm-white);
+    background: var(--warm-white);
+    padding: 18px 20px;
+    transition: background 0.4s ease, border-color 0.4s ease, letter-spacing 0.4s ease;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+    white-space: nowrap;
+  }
+  .btn-filled:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    letter-spacing: 0.18em;
+  }
+
+
+  /* ─── Hero Keyframes ─── */
+  @keyframes heroBgSettle {
+    from { transform: scale(1.06); }
+    to   { transform: scale(1.0);  }
+  }
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(34px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ─── COMPANY PANEL — Cinematic editorial luxury ─── */
+  #company {
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Full-bleed cinematic image — atmospheric base layer */
+  .co-img-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .co-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    filter: brightness(0.78) saturate(0.88);
+    transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 2.2s ease;
+  }
+  #company.co-entered .co-img {
+    transform: scale(1.0);
+    filter: brightness(0.86) saturate(0.96);
+  }
+  #company:hover .co-img { transform: scale(1.03); }
+
+  /* Atmospheric depth vignette — darker right half creates depth behind text block */
+  .co-img-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        rgba(13,11,12,0.06) 0%,
+        rgba(13,11,12,0.02) 38%,
+        rgba(13,11,12,0.28) 60%,
+        rgba(13,11,12,0.18) 100%),
+      linear-gradient(to bottom,
+        rgba(13,11,12,0.22) 0%,
+        transparent 28%,
+        transparent 72%,
+        rgba(13,11,12,0.28) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Atmospheric editorial typography — horizontal floating composition ──
+     Pure typography over the image. No background, no container, no card.
+     Luxury editorial print language — floats naturally embedded in the image.  */
+  .co-atmosphere {
+    position: absolute;
+    bottom: 68px;
+    left: 52px;
+    max-width: 58vw;         /* stays left of editorial card */
+    z-index: 2;              /* above vignette (z-index 1) */
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;   /* all blocks share same bottom baseline */
+    gap: 96px;
+  }
+
+  /* Each metric block — stacked vertically: value on top, label underneath */
+  .co-atmo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* value centered above its label */
+    gap: 19px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 2.0s cubic-bezier(0.16,1,0.3,1) 0.30s,
+                transform 2.0s cubic-bezier(0.16,1,0.3,1) 0.30s;
+  }
+  .co-atmo-block:nth-child(2) { transition-delay: 0.48s; }
+  .co-atmo-block:nth-child(3) { transition-delay: 0.66s; }
+  .co-atmo-block:nth-child(4) { transition-delay: 0.82s; }
+
+  /* Metric value — Playfair Display, elegant serif numeral/word.
+     Fixed height + align-items:flex-end ensures ALL values share the same bottom baseline
+     regardless of font size difference between numerals (40px) and words (33px).  */
+  .co-atmo-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: rgba(249,248,246,0.20);
+    -webkit-text-stroke: 0.5px rgba(249,248,246,0.12);
+    display: flex;
+    align-items: flex-end;   /* text sits at the bottom of the fixed-height box */
+    height: 44px;            /* tallest value (40px) + small buffer */
+  }
+  /* Text-based values (Global, Asia-Pacific) — smaller font, same fixed height */
+  .co-atmo-num--word {
+    font-size: 33px;
+    letter-spacing: -0.01em;
+  }
+
+  /* Metric label — Jost uppercase, fine tracking */
+  .co-atmo-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(249,248,246,0.16);
+    white-space: nowrap;
+  }
+
+  /* Trigger on co-entered — staggered luxury entrance */
+  #company.co-entered .co-atmo-block { opacity: 1; transform: translateY(0); }
+
+  /* Floating editorial text block — right side, vertically centered */
+  .co-editorial {
+    position: absolute;
+    top: 50%;
+    right: 56px;
+    width: clamp(300px, 35vw, 500px);
+    background: rgba(249,248,246,0.86);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.46);
+    box-shadow:
+      0 32px 96px rgba(13,11,12,0.22),
+      0 8px 28px rgba(13,11,12,0.14);
+    padding: 52px 48px;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(-50%) translateX(28px);
+    transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1) 0.12s,
+                transform 1.3s cubic-bezier(0.16,1,0.3,1) 0.12s;
+  }
+  #company.co-entered .co-editorial {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  /* Company pull-quote — editorial left-border signature */
+  #company .pull-quote {
+    border-top: none;
+    border-left: 2px solid var(--primary-pale);
+    padding-top: 0;
+    padding-left: 22px;
+    margin-top: 32px;
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--muted-ink);
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--primary);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--black);
+    margin-bottom: 32px;
+  }
+  .section-title em { font-style: normal; color: var(--primary); }
+  /* Company / Philosophy / Leadership headings — hero scale, grey body + dark key word */
+  #company .section-title,
+  #philosophy .section-title,
+  #leadership .section-title {
+    font-size: 76px;
+    letter-spacing: -0.015em;
+    line-height: 1.04;
+    margin-bottom: 28px;
+    color: var(--primary);        /* non-em text — grey */
+  }
+  #company .section-title em,
+  #philosophy .section-title em,
+  #leadership .section-title em {
+    font-style: normal;
+    color: var(--black);          /* em word — dark, the key concept */
+  }
+  .lead-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 36px;
+  }
+  .body-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 24px;
+  }
+  .pull-quote {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.9;
+    color: var(--text-body);
+    border-top: 1px solid var(--primary-pale);
+    padding-top: 28px;
+    margin-top: 12px;
+    margin-bottom: 48px;
+  }
+
+  /* ── Editorial emphasis — subtle weight accent on strategic terms ── */
+  .txt-accent {
+    font-weight: 400;
+    color: var(--black);
+  }
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    border-top: 1px solid var(--primary-pale);
+    padding-top: 32px;
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 28px;
+    /* Fixed height + bottom-align so all values share the same baseline */
+    height: 52px;
+    display: flex;
+    align-items: flex-end;
+  }
+  /* Text-based stats (Global, Asia-Pacific) — smaller size, same baseline via flex */
+  .stat-number--text {
+    font-size: 28px;
+  }
+  .stat-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  /* ── Shared section entrance animation (Philosophy / Leadership / Investors / Contact) ── */
+  .sec-anim {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sec-anim--d1 { transition-delay: 0.06s; }
+  .sec-anim--d2 { transition-delay: 0.18s; }
+  .sec-anim--d3 { transition-delay: 0.30s; }
+  .sec-anim--d4 { transition-delay: 0.44s; }
+  .sec-anim--d5 { transition-delay: 0.58s; }
+  .sec-anim--d6 { transition-delay: 0.72s; }
+  .sec-anim--d7 { transition-delay: 0.86s; }
+  .sec-entered .sec-anim {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Company entrance animation ── */
+  .co-anim {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .co-anim--d1 { transition-delay: 0.08s; }
+  .co-anim--d2 { transition-delay: 0.22s; }
+  .co-anim--d3 { transition-delay: 0.36s; }
+  .co-anim--d4 { transition-delay: 0.48s; }
+  .co-anim--d5 { transition-delay: 0.58s; }
+  .co-anim--d6 { transition-delay: 0.70s; }
+  .co-anim--d7 { transition-delay: 0.82s; }
+  #company.co-entered .co-anim {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── VENTURES PANEL ─── */
+  /* ══ VENTURES — Cinematic compositional system ══
+     All 4 panels coexist within 100vw at all times.
+     Width shifts create compositional movement — not carousel slides.
+     Active: ~62vw  Secondary: ~24vw  Tertiary: ~11vw  Hidden: ~3vw  */
+  #ventures {
+    background: var(--black);
+    display: flex;
+    width: 100vw;          /* always fits the viewport — panels fill it internally */
+    height: 100vh;
+    height: 100dvh;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .venture-panel {
+    /* Width is set by JS via setActiveVenture() */
+    width: 3vw;            /* initial collapsed state before JS fires */
+    height: 100vh;
+    height: 100dvh;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: width 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: width;
+    transform: translateZ(0);             /* force panel onto its own GPU layer at page load — no mid-animation promotion */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    isolation: isolate;                   /* prevent stacking context bleed between panels */
+  }
+
+  /* Right-edge atmospheric vignette — makes each panel edge feel intentional */
+  .venture-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 80px;
+    background: linear-gradient(to right, transparent 0%, rgba(13,11,12,0.55) 100%);
+    z-index: 8;
+    pointer-events: none;
+    transition: opacity 1.0s ease;
+  }
+  /* No right vignette needed on fully dominant panel */
+  .venture-panel.vp-dominant::before { opacity: 0; }
+
+  /* Dark atmospheric veil over non-dominant panels.
+     Uses opacity (GPU-compositable) instead of background-color transition
+     to avoid CPU repaints on every frame — primary flicker source eliminated. */
+  .venture-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(13,11,12,0.55);     /* fixed color — only opacity animates */
+    opacity: 0;
+    transition: opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 7;
+    pointer-events: none;
+  }
+  .venture-panel.vp-inactive::after { opacity: 1; }
+
+  /* Content blocks: only visible while panel is dominant */
+  .venture-panel:not(.vp-dominant) .venture-card-content,
+  .venture-panel:not(.vp-dominant) .venture-intro-wrap {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .venture-panel.vp-dominant .venture-card-content,
+  .venture-panel.vp-dominant .venture-intro-wrap {
+    opacity: 1;
+    transition: opacity 1.0s ease 0.45s;  /* delay: let width expand first */
+    pointer-events: auto;
+  }
+
+  /* Background image — only transform animates; dimming handled entirely by ::after overlay.
+     Removing filter transition eliminates the filter+transform+parent-clip-width simultaneous
+     animation that caused GPU layer repaint flicker on every venture scroll step. */
+  .venture-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform-origin: center;
+    transform: scale(1.06) translateZ(0);
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .venture-panel.vp-dominant .venture-bg {
+    transform: scale(1.0) translateZ(0);
+  }
+  .venture-panel.vp-dominant:hover .venture-bg { transform: scale(1.03) translateZ(0); }
+
+  /* ── Global image hover zoom — luxury timing ── */
+
+  /* Philosophy — left image removed in redesign */
+
+  /* Leadership — person photos */
+  .person-photo-wrap {
+    width: 100%;
+    flex: 0 0 65%;   /* flex basis instead of height — works correctly in flex column */
+    position: relative;
+    overflow: hidden; /* zoom is contained here */
+  }
+  .person-photo-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(to top, var(--warm-white) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .person-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(100%) brightness(0.88);
+    transform: scale(2.2);          /* face-only crop — zoomed tight to face by default */
+    transform-origin: 50% 16%;     /* anchor at face level, ~16% from top */
+    transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.0s ease;
+    display: block;
+  }
+  .person-card:hover .person-photo {
+    transform: scale(2.5);          /* slight additional pull-in on hover */
+    filter: grayscale(0%) brightness(1);  /* reveal full colour on hover */
+  }
+  /* Saurabh Dabas — shift face down ~40px */
+  .leadership-right .person-card:nth-child(1) .person-photo { transform: scale(2.2) translateY(19px); }
+  .leadership-right .person-card:nth-child(1):hover .person-photo { transform: scale(2.5) translateY(19px); }
+  /* Rajesh Kumar — 10% less zoom + shift face up ~20px */
+  .leadership-right .person-card:nth-child(2) .person-photo { transform: scale(2.0) translateY(-9px); }
+  .leadership-right .person-card:nth-child(2):hover .person-photo { transform: scale(2.25) translateY(-9px); }
+
+  /* Investors — left image */
+  .investors-left img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center center;
+  }
+  .investors-left:hover img { transform: scale(1.04); }
+
+  /* ══ INTRO PANEL — full-width editorial ══ */
+  .venture-panel--intro { display: block; }
+  .venture-panel--intro .venture-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .venture-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top,  rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.38) 42%, rgba(0,0,0,0.10) 100%),
+      linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.0) 68%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* intro text block — bottom-left */
+  .venture-intro-wrap {
+    position: absolute;
+    bottom: 80px;
+    left: 72px;
+    right: 72px;
+    z-index: 2;
+  }
+  .venture-intro-eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+  .venture-eyebrow-dash {
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--primary);
+    flex-shrink: 0;
+  }
+  .venture-intro-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .venture-intro-counter {
+    margin-left: auto;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.26em;
+    color: rgba(255,255,255,0.42);
+    text-transform: uppercase;
+  }
+
+  /* Intro heading */
+  .venture-intro-heading-block { position: relative; }
+  .venture-intro-h {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7.2vw, 90px);
+    font-weight: 300;
+    line-height: 1.04;
+    color: var(--warm-white);
+    letter-spacing: -0.02em;
+    display: block;
+    margin: 0;
+  }
+  .venture-intro-h--italic { font-style: normal; }
+
+  /* Ghost / outline decorative text */
+  .venture-intro-ghost {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 10.5vw, 132px);
+    font-weight: 300;
+    line-height: 0.88;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -0.025em;
+    display: block;
+    margin-top: 6px;
+    user-select: none;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.6s ease 0.8s;
+  }
+  .venture-panel.vp-entered .venture-intro-ghost { opacity: 1; }
+
+  /* Intro body copy */
+  .venture-intro-desc {
+    margin-top: 44px;
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.48);
+    max-width: 540px;
+  }
+
+  /* ══ CARD PANELS — full-bleed image with bottom content overlay ══ */
+  .venture-panel--split { display: block; }  /* repurposed class: full-bleed */
+
+  /* Image fills the whole card */
+  .venture-split-img {
+    position: absolute;
+    inset: 0;
+    /* overflow: hidden removed — .venture-panel already clips; double-clip forced expensive layer compositing */
+  }
+  .venture-split-img .venture-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Strong bottom-up gradient so text is always readable */
+  .venture-card-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top,  rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.0) 100%),
+      linear-gradient(to right, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.0) 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Large ghost numeral — top-left of card */
+  .venture-big-num {
+    position: absolute;
+    top: 40px;
+    left: 48px;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(80px, 11vw, 140px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.04);
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Content block — positioned at the bottom of the card */
+  .venture-card-content {
+    position: absolute;
+    bottom: 120px;
+    left: 56px;
+    right: 48px;
+    z-index: 2;
+  }
+
+  /* Panel counter — sits above eyebrow in content block */
+  .venture-split-panel-num {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.42);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  /* Shared text elements */
+  .venture-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+  .venture-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 4.2vw, 56px);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--warm-white);
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .venture-title em { font-style: normal; }
+  .venture-tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--primary-pale);
+    margin-top: 18px;
+    line-height: 1.5;
+  }
+  .venture-divider {
+    width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    margin: 18px 0;
+    flex-shrink: 0;
+  }
+  .venture-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.52);
+    max-width: 420px;
+  }
+  /* Pill-style tags */
+  .venture-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .venture-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.36);
+    border-radius: 100px;
+    padding: 9px 18px;
+    white-space: nowrap;
+  }
+
+  /* ══ Entrance animation system ══ */
+  .venture-anim {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .venture-anim--d1 { transition-delay: 0.08s; }
+  .venture-anim--d2 { transition-delay: 0.22s; }
+  .venture-anim--d3 { transition-delay: 0.36s; }
+  .venture-anim--d4 { transition-delay: 0.50s; }
+  .venture-anim--d5 { transition-delay: 0.66s; }
+  .venture-panel.vp-entered .venture-anim {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── PHILOSOPHY PANEL — Editorial Large Number System ─── */
+  #philosophy {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: calc(38% + 100px) calc(62% - 100px);
+  }
+  .philosophy-intro {
+    padding: 120px 56px 80px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid rgba(0,0,0,0.07);
+  }
+  .philosophy-rows {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10vh 0;
+  }
+  .phil-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 0 64px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    transition: background 0.5s ease;
+    cursor: default;
+  }
+  .phil-row:last-child { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .phil-row:hover { background: rgba(141,135,138,0.04); }
+  .phil-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 130px;
+    font-weight: 400;
+    line-height: 0.82;
+    color: rgba(141,135,138,0.48);
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+    width: 160px;
+    text-align: right;
+    user-select: none;
+    transform: translateY(-0.09em);
+  }
+  .phil-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 27px;
+    font-weight: 300;
+    line-height: 1.48;
+    color: #3a3738;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── LEADERSHIP PANEL ─── */
+  #leadership {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 35% 65%;
+  }
+  .leadership-left {
+    padding: 120px 48px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--primary-pale);
+  }
+  .leadership-right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: hidden;
+  }
+  .person-card {
+    position: relative;
+    /* overflow: hidden removed — zoom is contained in .person-photo-wrap; initials must not be clipped */
+    border-right: 1px solid var(--primary-pale);
+    display: flex;
+    flex-direction: column;
+  }
+  .person-card:last-child { border-right: none; }
+  .person-info {
+    padding: 24px 32px;
+    position: relative;
+    z-index: 2;          /* sit above the photo wrap so initials aren't buried */
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    flex: 1;
+    background: var(--warm-white); /* solid bg so the overlap reads cleanly */
+  }
+  .person-card:hover .person-info { transform: translateY(-14px); }
+  .person-initials {
+    position: absolute;
+    top: -20px;
+    left: 32px;
+    width: 40px;
+    height: 40px;
+    z-index: 3;          /* above person-info itself */
+    background: var(--primary);
+    color: var(--warm-white);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .person-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--black);
+    margin-bottom: 4px;
+    margin-top: 12px;
+  }
+  .person-role {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 16px;
+  }
+  .person-bio {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--text-body);
+  }
+
+  /* ─── INVESTORS PANEL ─── */
+  #investors {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 45% 55%;
+  }
+  .investors-left { position: relative; overflow: hidden; }
+  .platform-focus {
+    position: absolute;
+    bottom: 78px;
+    left: 40px;
+    background: var(--warm-white);
+    padding: 28px;
+    width: fit-content;
+  }
+  .platform-label {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .platform-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--black);
+    line-height: 1.2;
+  }
+  .investors-right {
+    background: var(--text-body);
+    padding: 120px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .investors-right .eyebrow,
+  .contact-left .eyebrow { color: rgba(255,255,255,0.50); }
+  .investors-right .eyebrow::before,
+  .contact-left .eyebrow::before { background: rgba(255,255,255,0.36); }
+  .investors-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 76px;
+    font-weight: 300;
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: var(--primary);        /* non-em text — grey */
+    margin-bottom: 28px;
+  }
+  .investors-title em { font-style: normal; color: #F5F2EF; } /* key word — warm off-white, no italic */
+  .investors-desc {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #D6D2D4;
+    margin-bottom: 32px;
+    max-width: 620px;
+  }
+  .investors-list { list-style: none; margin-bottom: 40px; }
+  .investors-list li {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #8D878A;
+    padding: 14px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .investors-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .investors-list li::before { content: '—'; color: #D6D2D4; flex-shrink: 0; }
+  .btn-investors {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    border: 1px solid var(--warm-white);
+    padding: 16px 32px;
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.4s ease, border-color 0.4s ease, letter-spacing 0.4s ease;
+    display: block;
+    max-width: 320px;
+  }
+  .btn-investors:hover {
+    background: rgba(255,255,255,0.05);
+    letter-spacing: 0.18em;
+  }
+
+  /* ─── INVESTORS PANEL — Editorial Timeline Redesign ─── */
+  #investors {
+    background: #8d878a;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    overflow: hidden;
+  }
+  .inv-left {
+    padding: clamp(72px, 10vh, 144px) 48px clamp(56px, 7vh, 96px) 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .inv-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.50);
+    margin-bottom: clamp(24px, 3.5vh, 44px);
+  }
+  .inv-eyebrow::before {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: rgba(255,255,255,0.36);
+    flex-shrink: 0;
+  }
+  .inv-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4.7vh, 54px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: rgba(255,255,255,0.42);
+    margin-bottom: clamp(18px, 2.5vh, 32px);
+  }
+  .inv-title em {
+    font-style: normal;
+    color: rgba(255,255,255,0.90);
+    display: block;
+  }
+  .inv-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.92;
+    color: rgba(255,255,255,0.48);
+    max-width: 400px;
+    margin-bottom: clamp(24px, 3vh, 40px);
+  }
+  .inv-cta {
+    display: inline-block;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.68);
+    border: 1px solid rgba(255,255,255,0.28);
+    padding: 18px 40px;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease;
+    width: fit-content;
+  }
+  .inv-cta:hover {
+    border-color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.90);
+    letter-spacing: 0.26em;
+  }
+  .inv-right {
+    padding: clamp(56px, 8vh, 100px) 64px clamp(56px, 8vh, 100px) 72px;
+    display: flex;
+    flex-direction: column;
+  }
+  .inv-timeline {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .inv-vline {
+    position: absolute;
+    left: 48px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.18);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .inv-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.09);
+    padding-left: 100px;
+    gap: 24px;
+  }
+  .inv-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.09); }
+  .inv-dot {
+    position: absolute;
+    left: 48px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.62);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .inv-hline {
+    position: absolute;
+    left: 52px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,0.20);
+    z-index: 1;
+  }
+  .inv-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vh, 72px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: rgba(255,255,255,0.82);
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+    width: 86px;
+    user-select: none;
+    transform: translateY(calc(0.05em - 15px));
+  }
+  .inv-item-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.82;
+    color: rgba(255,255,255,0.76);
+  }
+  @media (max-width: 750px) {
+    #investors { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; min-height: 100dvh; }
+    .inv-left  { padding: 72px 24px 40px; }
+    .inv-right { padding: 0 24px 64px 0; height: 65vh; }
+    .inv-row   { padding-left: 80px; gap: 16px; }
+    .inv-vline { left: 36px; }
+    .inv-dot   { left: 36px; }
+    .inv-hline { left: 40px; width: 40px; }
+    .inv-num   { font-size: 40px; width: 64px; }
+    .inv-item-text { font-size: 13px; }
+  }
+  @media (max-height: 820px) {
+    .inv-left  { padding: clamp(48px, 7vh, 96px) 40px clamp(36px, 5vh, 64px) 56px; }
+    .inv-right { padding: clamp(40px, 6vh, 72px) 48px clamp(40px, 6vh, 72px) 72px; }
+    .inv-num   { font-size: clamp(40px, 6vh, 64px); width: 76px; }
+    .inv-desc  { font-size: 14px; margin-bottom: clamp(20px, 3vh, 40px); }
+  }
+  @media (max-height: 650px) {
+    .inv-left  { padding: 36px 32px 24px 44px; overflow-y: auto; }
+    .inv-right { padding: 24px 40px 24px 72px; }
+    .inv-num   { font-size: 36px !important; width: 56px; }
+    .inv-item-text { font-size: 13px; }
+    .inv-row   { padding-left: 80px; gap: 16px; }
+    .inv-vline { left: 36px; }
+    .inv-dot   { left: 36px; }
+    .inv-hline { left: 40px; width: 40px; }
+  }
+
+  /* ─── CONTACT PANEL ─── */
+  #contact {
+    background: #8D878A;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    flex-shrink: 0;
+  }
+  .contact-left {
+    background: #8D878A;
+    padding: 120px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+  }
+  .contact-right {
+    padding: 120px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--warm-white);
+    overflow-y: auto;
+  }
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 76px;
+    font-weight: 300;
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: rgba(255,255,255,0.42);  /* first line — muted, matches Investors heading */
+    margin-bottom: 28px;
+  }
+  .contact-title em { font-style: normal; color: rgba(255,255,255,0.90); } /* second line — bright, matches Investors heading em */
+  .contact-intro {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.48);
+    margin-bottom: 48px;
+    max-width: 620px;
+  }
+  .contact-details { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.50);
+    margin-bottom: 8px;
+  }
+  .contact-item-value {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.76);
+    line-height: 1.85;
+  }
+  .contact-disclaimer {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.40);
+    border-top: 1px solid rgba(255,255,255,0.09);
+    padding-top: 24px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+  .form-group { margin-bottom: 28px; }
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text-body);
+    border: none;
+    border-bottom: 1px solid var(--primary-pale);
+    background: transparent;
+    padding: 12px 0;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-bottom-color: var(--text-body); }
+  .form-group textarea { height: 100px; resize: none; }
+  .form-group select { cursor: pointer; }
+  .btn-submit {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 16px 32px;
+    cursor: pointer;
+    transition: background 0.4s ease, border-color 0.4s ease, letter-spacing 0.4s ease;
+    margin-top: 8px;
+  }
+  .btn-submit:hover {
+    background: var(--text-body);
+    border-color: var(--text-body);
+    letter-spacing: 0.18em;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: var(--primary);
+    z-index: 2000;
+    transition: width 0.1s ease;
+  }
+
+  /* ─── TABLET 768–1024px ─── */
+  @media (max-width: 1024px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.08em; }
+    .nav-btn { font-size: 10px; padding: 8px 16px; letter-spacing: 0.08em; }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: 58px; }
+    .hero-inner { padding: 0 40px 90px; }
+    .hero-left { padding-right: 40px; }
+    .co-editorial { right: 32px; padding: 40px 36px; width: clamp(280px, 42vw, 460px); }
+    .co-atmosphere { left: 32px; gap: 64px; max-width: 54vw; }
+    .co-atmo-num { font-size: 28px; }
+    .co-atmo-num--word { font-size: 24px; }
+    .section-title { font-size: 40px; }
+    #company .section-title,
+    #philosophy .section-title,
+    #leadership .section-title { font-size: 58px; }
+    /* Ventures — tablet */
+    .venture-intro-wrap { left: 48px; right: 48px; }
+    .venture-intro-h { font-size: clamp(44px, 6.5vw, 72px); }
+    .venture-intro-ghost { font-size: clamp(64px, 9.5vw, 108px); }
+    .venture-split-content { padding: 0 48px 64px; }
+    .venture-title { font-size: clamp(34px, 3.8vw, 50px); }
+    .philosophy-intro { padding: 80px 40px 60px 48px; }
+    .phil-row { padding: 32px 40px; gap: 32px; }
+    .phil-num { font-size: 80px; width: 100px; }
+    .leadership-left { padding: 100px 32px 60px; }
+    .investors-right { padding: 100px 40px 60px; }
+    .investors-title { font-size: 58px; }
+    .contact-left { padding: 100px 40px 60px; }
+    .contact-title { font-size: 58px; }
+    .contact-right { padding: 100px 40px 60px; }
+    footer { padding: 0 24px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     D6 ELEVATION — LUXURY REFINEMENT LAYER v2
+     Quiet confidence. Cinematic restraint. Editorial depth.
+  ═══════════════════════════════════════════════════════ */
+
+  /* ── Refined color depth ── */
+  :root {
+    --warm-white: #f9f8f6;
+    --cream: #f3f0ec;
+    --primary: #8a8487;
+    --text-body: #2e2c2d;
+    --black: #0d0b0c;
+    --primary-pale: #cdc9cb;
+    --warm-stone: #b8b3b0;
+    --muted-ink: #5e5b5c;
+  }
+
+  /* ── NAV — more refined, taller, airier ── */
+  nav { height: 80px; padding: 0 60px; letter-spacing: 0.01em; }
+  .nav-links { gap: 44px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.20em; }
+  .nav-btn { font-size: 10px; letter-spacing: 0.20em; padding: 11px 28px; }
+
+  /* ── Footer — borderless, quieter ── */
+  footer { border-top: none; background: var(--warm-white); height: 40px; letter-spacing: 0.18em; }
+  .ste-wrap { letter-spacing: 0.26em; }
+
+  /* ── Hero — slower, more cinematic atmosphere ── */
+  .hero-bg { opacity: 0.68; }
+  .hero-overlay {
+    background:
+      linear-gradient(to right,  rgba(13,11,12,0.74) 0%, rgba(13,11,12,0.08) 55%, rgba(13,11,12,0.50) 100%),
+      linear-gradient(to top,    rgba(13,11,12,0.85) 0%, transparent 50%);
+  }
+  .hero-inner { padding: 0 72px 112px; }
+  .hero-left  { padding-right: 72px; }
+  .hero-title-line1,
+  .hero-title-line2 { font-size: 70px; letter-spacing: -0.02em; }
+  .hero-eyebrow { font-size: 9px; letter-spacing: 0.30em; margin-bottom: 40px; }
+  .hero-eyebrow::before { width: 28px; background: rgba(255,255,255,0.48); }
+  .hero-body { font-size: 15px; line-height: 2.0; color: rgba(255,255,255,0.55); max-width: 300px; margin-left: auto; }
+  .btn-outline, .btn-filled { font-size: 10px; letter-spacing: 0.20em; padding: 17px 20px; }
+  .btn-outline:hover, .btn-filled:hover { letter-spacing: 0.25em; }
+
+  /* ── Eyebrow — globally quieter, more restrained ── */
+  .eyebrow { font-size: 9px; letter-spacing: 0.30em; margin-bottom: 36px; }
+  .eyebrow::before { width: 24px; }
+
+  /* ── Section title — refined scale ── */
+  .section-title { font-size: 50px; letter-spacing: -0.01em; line-height: 1.06; margin-bottom: 40px; }
+  #company .section-title,
+  #philosophy .section-title { font-size: 70px; margin-bottom: 40px; }
+  #leadership .section-title { font-size: 62px; margin-bottom: 32px; }
+
+  /* ── Body copy — more editorial, better line-length ── */
+  .lead-text { font-size: 16px; line-height: 1.95; max-width: 500px; margin-bottom: 32px; color: var(--muted-ink); }
+  .body-text  { font-size: 15px; line-height: 1.95; max-width: 500px; margin-bottom: 22px; color: var(--muted-ink); }
+  #leadership .body-text { font-size: 14px; max-width: 340px; color: #8a8487; }
+
+  /* ── Pull quote — editorial left-rule style, no top border ── */
+  .pull-quote {
+    font-size: 15px; line-height: 2.0; font-style: normal;
+    border-top: none; padding-top: 0; margin-top: 4px; margin-bottom: 52px;
+    color: var(--primary); position: relative; padding-left: 20px;
+  }
+  .pull-quote::before {
+    content: ''; position: absolute; left: 0; top: 6px;
+    width: 1px; height: calc(100% - 6px); background: var(--primary-pale);
+  }
+
+  /* ── Stats — more spacious, remove border, tonal separation ── */
+  .stats-strip {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 44px; gap: 0;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-number { font-size: 34px; height: 42px; margin-bottom: 10px; color: var(--text-body); }
+  .stat-number--text { font-size: 22px; }
+  .stat-label { font-size: 8px; letter-spacing: 0.22em; }
+
+  /* ── Company panel ── */
+  .co-editorial { right: 64px; padding: 56px 52px; }
+  #company .pull-quote { font-size: 14px; }
+
+  /* ── Venture section — more cinematic atmospheric depth ── */
+  .venture-intro-wrap { bottom: 88px; left: 80px; right: 80px; }
+  .venture-intro-eyebrow-row { margin-bottom: 40px; }
+  .venture-intro-label { font-size: 8px; letter-spacing: 0.34em; color: rgba(255,255,255,0.45); }
+  .venture-intro-counter { font-size: 10px; letter-spacing: 0.30em; color: rgba(255,255,255,0.30); }
+  .venture-intro-h { letter-spacing: -0.025em; }
+  .venture-intro-desc { font-size: 15px; line-height: 2.0; color: rgba(255,255,255,0.36); max-width: 440px; margin-top: 48px; }
+  .venture-overlay {
+    background:
+      linear-gradient(to top,  rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.40) 40%, rgba(0,0,0,0.08) 100%),
+      linear-gradient(to right, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.0) 65%);
+  }
+  .venture-card-overlay {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.52) 28%, rgba(0,0,0,0.10) 60%, transparent 100%),
+      linear-gradient(to right, rgba(0,0,0,0.10) 0%, transparent 50%);
+  }
+  .venture-card-content { bottom: 100px; left: 60px; right: 52px; }
+  .venture-eyebrow { font-size: 8px; letter-spacing: 0.34em; color: rgba(255,255,255,0.48); margin-bottom: 14px; }
+  .venture-title { font-size: clamp(34px, 3.6vw, 50px); }
+  .venture-tagline { font-size: 14px; color: rgba(255,255,255,0.40); margin-top: 14px; }
+  .venture-divider { background: rgba(255,255,255,0.07); }
+  .venture-desc { font-size: 15px; line-height: 1.95; color: rgba(255,255,255,0.38); }
+  .venture-tags { margin-top: 28px; gap: 6px; }
+  .venture-tag { font-size: 9px; letter-spacing: 0.20em; padding: 8px 14px; border: 1px solid rgba(255,255,255,0.16); color: rgba(255,255,255,0.50); }
+  .venture-big-num {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.30);
+    color: rgba(255,255,255,0.30);
+    mix-blend-mode: normal;
+    top: 70px;
+  }
+
+  /* ── Venture entrance — slower luxury pacing ── */
+  .venture-anim {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1);
+  }
+  .venture-anim--d1 { transition-delay: 0.10s; }
+  .venture-anim--d2 { transition-delay: 0.26s; }
+  .venture-anim--d3 { transition-delay: 0.42s; }
+  .venture-anim--d4 { transition-delay: 0.58s; }
+  .venture-anim--d5 { transition-delay: 0.74s; }
+
+  /* ── Philosophy wide-screen ── */
+  .philosophy-intro { padding: 144px 64px 96px 80px; }
+  .phil-row { padding: 0 80px; gap: 56px; }
+  .phil-num { font-size: 148px; width: 172px; }
+  .phil-text { font-size: 28px; }
+
+  /* ── Leadership — editorial portrait layout ── */
+  .leadership-left { padding: 144px 56px 96px; border-right: none; }
+  .leadership-right { border-left: 1px solid rgba(0,0,0,0.05); }
+  .person-card { border-right: 1px solid rgba(0,0,0,0.05); }
+  .person-card:last-child { border-right: none; }
+  .person-photo-wrap::after {
+    height: 52%;
+    background: linear-gradient(to top, var(--warm-white) 0%, transparent 100%);
+  }
+  .person-info { padding: 32px 36px 40px; }
+  .person-initials { display: none; }   /* remove corporate badges */
+  .person-name { font-size: 19px; margin-top: 0; margin-bottom: 6px; letter-spacing: 0.01em; }
+  .person-role { font-size: 8px; letter-spacing: 0.24em; color: var(--warm-stone); margin-bottom: 20px; }
+  .person-bio { font-size: 14px; line-height: 1.9; color: #848082; }
+
+  /* ── Investors ── */
+  .investors-right { padding: 144px 72px 96px; }
+  .investors-title { font-size: 64px; }
+  .investors-desc { font-size: 15px; line-height: 1.95; color: rgba(255,255,255,0.34); max-width: 520px; margin-bottom: 44px; }
+  .investors-list li { font-size: 15px; color: rgba(255,255,255,0.28); padding: 17px 0; border-top: 1px solid rgba(255,255,255,0.06); gap: 20px; }
+  .investors-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .investors-list li::before { color: rgba(255,255,255,0.20); }
+  .btn-investors { font-size: 10px; letter-spacing: 0.24em; padding: 18px 36px; border: 1px solid rgba(255,255,255,0.20); color: rgba(255,255,255,0.65); }
+  .btn-investors:hover { border-color: rgba(255,255,255,0.42); background: rgba(255,255,255,0.03); letter-spacing: 0.28em; }
+  .platform-focus { background: rgba(249,248,246,0.90); padding: 28px; width: fit-content; backdrop-filter: blur(12px); }
+  .platform-label { font-size: 8px; letter-spacing: 0.24em; }
+  .platform-title { font-size: 19px; letter-spacing: 0.01em; }
+
+  /* ── Contact ── */
+  .contact-left { padding: 144px 72px 96px; }
+  .contact-right { padding: 144px 72px 96px; }
+  .contact-title { font-size: 64px; }
+  .contact-intro { font-size: 15px; line-height: 1.95; max-width: 440px; margin-bottom: 56px; }
+  .contact-item-label { font-size: 9px; letter-spacing: 0.24em; margin-bottom: 10px; }
+  .contact-item-value { font-size: 15px; line-height: 1.85; }
+  .contact-details { gap: 36px; }
+  .contact-disclaimer { font-size: 12px; line-height: 1.85; border-top: 1px solid rgba(255,255,255,0.09); color: rgba(255,255,255,0.40); }
+  .form-row { margin-bottom: 0; gap: 28px; }
+  .form-group { margin-bottom: 40px; }
+  .form-group label { font-size: 9px; letter-spacing: 0.24em; margin-bottom: 16px; color: #9a9698; }
+  .form-group input, .form-group select, .form-group textarea { font-size: 15px; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.09); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-bottom-color: var(--text-body); }
+  .form-group textarea { height: 84px; }
+  .btn-submit { font-size: 10px; letter-spacing: 0.24em; padding: 18px 44px; background: var(--text-body); border-color: var(--text-body); margin-top: 4px; }
+  .btn-submit:hover { background: var(--black); border-color: var(--black); letter-spacing: 0.28em; }
+
+  /* ── Section entrance — slower luxury pacing ── */
+  .sec-anim {
+    opacity: 0; transform: translateY(26px);
+    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sec-anim--d1 { transition-delay: 0.08s; }
+  .sec-anim--d2 { transition-delay: 0.22s; }
+  .sec-anim--d3 { transition-delay: 0.38s; }
+  .sec-anim--d4 { transition-delay: 0.56s; }
+  .sec-anim--d5 { transition-delay: 0.74s; }
+  .sec-anim--d6 { transition-delay: 0.92s; }
+  .sec-anim--d7 { transition-delay: 1.10s; }
+
+  /* ── Company entrance — slower ── */
+  .co-anim {
+    opacity: 0; transform: translateY(26px);
+    transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* ── Venture Progressive Reveal — Tier 2 ── */
+  .venture-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 1.4s cubic-bezier(0.16,1,0.3,1),
+                transform 1.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .venture-reveal--d1 { transition-delay: 0.55s; }
+  .venture-reveal--d2 { transition-delay: 0.75s; }
+  .venture-reveal--d3 { transition-delay: 0.95s; }
+  .venture-reveal--d4 { transition-delay: 1.20s; }
+  .venture-panel.vp-entered .venture-reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Larger, more dominant venture titles ── */
+  .venture-title {
+    font-size: clamp(44px, 4.8vw, 66px);
+    letter-spacing: -0.025em;
+    line-height: 1.03;
+  }
+  .venture-intro-h {
+    font-size: clamp(56px, 7.8vw, 98px);
+    letter-spacing: -0.03em;
+  }
+
+  /* ── Deeper, more cinematic overlays ── */
+  .venture-overlay {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.50) 36%, rgba(0,0,0,0.12) 70%, transparent 100%),
+      linear-gradient(to right, rgba(0,0,0,0.70) 0%, transparent 68%);
+  }
+  .venture-card-overlay {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.20) 55%, transparent 100%),
+      linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 52%);
+  }
+
+  /* ─── MOBILE ≤750px ─── */
+  @media (max-width: 750px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .nav-btn { display: none; }
+
+    /* Hero — mobile single column */
+    .hero-inner {
+      grid-template-columns: 1fr;
+      padding: 90px 24px 80px;
+      align-items: start;
+      gap: 36px;
+      overflow-y: auto;
+    }
+    .hero-left { padding-right: 0; }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: 44px; }
+    .hero-right {
+      border-top: 1px solid rgba(255,255,255,0.16);
+      padding-top: 24px;
+      gap: 24px;
+    }
+    .hero-body { text-align: center; }
+    .hero-buttons { flex-direction: column; gap: 10px; }
+    .btn-outline,
+    .btn-filled   { padding: 16px 20px; flex: unset; width: 100%; }
+
+    /* Company mobile — image top half, text block stacks below */
+    #company { display: flex; flex-direction: column; }
+    .co-img-wrap { position: relative; height: 52vh; flex-shrink: 0; }
+    .co-atmosphere { display: none; } /* too subtle to read on mobile */
+    .co-editorial {
+      position: relative;
+      top: auto; right: auto;
+      transform: none !important;
+      width: 100%;
+      padding: 40px 24px;
+      border: none;
+      box-shadow: none;
+      background: var(--warm-white);
+      backdrop-filter: none;
+      opacity: 1 !important;
+      overflow-y: auto;
+    }
+    #company .section-title { font-size: 38px; }
+    #company .pull-quote { padding-left: 16px; }
+    .section-title { font-size: 36px; }
+    #company .section-title,
+    #philosophy .section-title,
+    #leadership .section-title { font-size: 44px; }
+
+    /* Ventures — mobile: all cards full-width (no peek effect) */
+    /* Mobile: traditional full-panel slider — no compositional peek */
+    #ventures { width: calc(100vw + 100vw + 100vw + 100vw); overflow: visible; }
+    .venture-panel { width: 100vw !important; transition: none; }
+    .venture-panel--card { width: 100vw !important; }
+    .venture-panel::before { display: none; }
+    .venture-panel::after { display: none; }
+    .venture-panel:not(.vp-dominant) .venture-card-content,
+    .venture-panel:not(.vp-dominant) .venture-intro-wrap { opacity: 1; }
+    .venture-panel .venture-bg { transform: scale(1.0) translateZ(0) !important; }
+    .venture-card-content { left: 24px; right: 24px; bottom: 56px; }
+    .venture-split-panel-num { margin-bottom: 12px; }
+    .venture-intro-wrap { left: 24px; right: 24px; bottom: 56px; }
+    .venture-intro-eyebrow-row { margin-bottom: 20px; }
+    .venture-intro-h { font-size: clamp(36px, 10vw, 52px); }
+    .venture-intro-ghost { font-size: clamp(52px, 14vw, 76px); }
+    .venture-intro-desc { font-size: 14px; max-width: 100%; margin-top: 28px; }
+    .venture-title { font-size: clamp(32px, 8vw, 44px); }
+    .venture-tagline { font-size: 13px; margin-top: 12px; }
+    .venture-divider { margin: 20px 0; }
+    .venture-desc { font-size: 14px; max-width: 100%; }
+    .venture-tags { margin-top: 20px; gap: 6px; }
+    .venture-tag { font-size: 9px; padding: 8px 12px; }
+
+    #philosophy { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; min-height: 100vh; min-height: 100dvh; }
+    .philosophy-intro { padding: 80px 24px 40px; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.07); }
+    .phil-row { padding: 24px 24px; gap: 24px; }
+    .phil-num { font-size: 64px; width: 76px; }
+    .phil-text { font-size: 17px; }
+
+    #leadership { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .leadership-left { padding: 80px 24px 40px; border-right: none; border-bottom: 1px solid var(--primary-pale); }
+    .leadership-right { grid-template-columns: 1fr; }
+
+    #investors { grid-template-columns: 1fr; grid-template-rows: 40vh 60vh; }
+    .investors-right { padding: 40px 24px; }
+    .investors-title { font-size: 44px; }
+    .contact-title   { font-size: 44px; }
+
+    #contact {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      overflow-y: auto;
+      height: auto;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    #contact.panel { height: auto; min-height: 100vh; min-height: 100dvh; }
+    #leadership.panel { height: auto; min-height: 100vh; min-height: 100dvh; }
+    .contact-left { padding: 80px 24px 40px; min-height: auto; }
+    .contact-right { padding: 40px 24px 60px; min-height: auto; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    /* 16px minimum prevents iOS Safari from auto-zooming on input focus */
+    .form-group input,
+    .form-group select,
+    .form-group textarea { font-size: 16px; padding: 14px 0; }
+    .form-group label { font-size: 11px; }
+    .form-group { margin-bottom: 24px; }
+    .form-group textarea { height: 88px; }
+
+    /* Footer mobile — hide centre label, compress padding */
+    footer {
+      padding: 0 16px;
+      height: 40px;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+    }
+    .footer-center { display: none; }
+    .footer-right { gap: 20px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     HEIGHT RESPONSIVENESS
+     Content adapts when viewport height is reduced —
+     laptop screens, browser chrome, resized windows.
+     Two tiers: comfortable compact (≤820px) and minimal (≤650px).
+  ═══════════════════════════════════════════════════════ */
+
+  @media (max-height: 820px) {
+    /* ── Chrome ── */
+    nav    { height: 68px; }
+    footer { height: 34px; }
+
+    /* ── Hero ── */
+    .hero-inner { padding: 0 72px clamp(52px, 7vh, 90px); }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: clamp(46px, 6.5vh, 70px); }
+    .hero-eyebrow  { margin-bottom: clamp(16px, 2.5vh, 36px); }
+    .hero-body     { font-size: 14px; }
+
+    /* ── Company ── */
+    .co-editorial { padding: 40px 44px; }
+    #company .section-title,
+    #philosophy .section-title { font-size: clamp(42px, 6.5vh, 66px); }
+    #leadership .section-title { font-size: clamp(38px, 5.8vh, 58px); }
+
+    /* ── Ventures ── */
+    .venture-intro-wrap   { bottom: clamp(44px, 6vh, 72px); }
+    .venture-card-content { bottom: clamp(48px, 7vh, 80px); }
+    .venture-intro-desc   { margin-top: clamp(20px, 3vh, 40px); font-size: 14px; }
+
+    /* ── Philosophy — most height-sensitive section ── */
+    .philosophy-intro  { padding: clamp(52px, 8.5vh, 120px) 64px clamp(32px, 4.5vh, 80px) 80px; }
+    .philosophy-rows   { padding: clamp(4px, 2vh, 24px) 0; }
+    .phil-num  { font-size: clamp(70px, 12vh, 140px); width: clamp(88px, 13.5vh, 164px); }
+    .phil-text { font-size: clamp(17px, 2.2vh, 28px); }
+    .phil-row  { gap: clamp(28px, 4vw, 56px); }
+
+    /* ── Leadership ── */
+    .leadership-left { padding: clamp(56px, 8.5vh, 120px) 56px clamp(32px, 4.5vh, 72px); }
+
+    /* ── Investors ── */
+    .investors-right { padding: clamp(56px, 8.5vh, 120px) 72px clamp(32px, 4.5vh, 72px); }
+    .investors-title { font-size: clamp(40px, 5.8vh, 60px); }
+    .investors-desc  { margin-bottom: clamp(20px, 3vh, 40px); font-size: 14px; }
+    .investors-list li { padding: clamp(8px, 1.5vh, 17px) 0; }
+
+    /* ── Contact ── */
+    .contact-left  { padding: clamp(56px, 8.5vh, 120px) 72px clamp(32px, 4.5vh, 72px); }
+    .contact-right { padding: clamp(56px, 8.5vh, 120px) 72px clamp(32px, 4.5vh, 72px); }
+    .contact-title { font-size: clamp(40px, 5.8vh, 60px); }
+    .contact-intro { margin-bottom: clamp(20px, 3vh, 48px); }
+    .contact-details { gap: clamp(16px, 2.5vh, 36px); }
+    .form-group    { margin-bottom: clamp(20px, 3.5vh, 40px); }
+    .form-group textarea { height: 72px; }
+
+    /* ── Global spacing ── */
+    .eyebrow      { margin-bottom: clamp(14px, 2vh, 32px); }
+    .section-title { margin-bottom: clamp(16px, 2.5vh, 36px); }
+    .lead-text    { margin-bottom: clamp(14px, 2vh, 28px); }
+    .pull-quote   { margin-bottom: clamp(20px, 3vh, 48px); }
+  }
+
+  @media (max-height: 650px) {
+    /* ── Chrome ── */
+    nav    { height: 56px; }
+    footer { height: 28px; }
+
+    /* ── Hero ── */
+    .hero-inner { padding: 0 64px 40px; }
+    .hero-title-line1,
+    .hero-title-line2 { font-size: 40px; }
+    .hero-eyebrow { margin-bottom: 14px; }
+    .hero-body    { font-size: 13px; line-height: 1.65; }
+
+    /* ── Company ── */
+    .co-editorial { padding: 28px 32px; }
+    #company .section-title,
+    #philosophy .section-title { font-size: 34px; }
+    #company .pull-quote { font-size: 13px; margin-bottom: 0; }
+    .stats-strip { padding-top: 20px; }
+    .stat-number { font-size: 26px; height: 32px; margin-bottom: 6px; }
+
+    /* ── Ventures ── */
+    .venture-intro-wrap   { bottom: 32px; }
+    .venture-card-content { bottom: 36px; }
+    .venture-intro-desc   { font-size: 13px; margin-top: 14px; }
+    .venture-title    { font-size: 30px; }
+    .venture-tagline  { font-size: 12px; margin-top: 8px; }
+    .venture-divider  { margin: 10px 0; }
+    .venture-desc     { font-size: 13px; }
+    .venture-tags     { margin-top: 12px; }
+    .venture-tag      { padding: 6px 12px; font-size: 8px; }
+
+    /* ── Philosophy ── */
+    .philosophy-intro { padding: 40px 40px 24px 48px; }
+    .philosophy-rows  { padding: 0; }
+    .phil-num  { font-size: 52px !important; width: 66px !important; line-height: 0.88; }
+    .phil-text { font-size: 14px !important; line-height: 1.35; }
+    .phil-row  { gap: 20px !important; padding: 0 40px !important; }
+    #leadership .section-title { font-size: 34px; }
+
+    /* ── Leadership ── */
+    .leadership-left { padding: 40px 40px 24px; overflow-y: auto; }
+    .lead-text   { font-size: 13px; line-height: 1.65; margin-bottom: 10px; }
+    .pull-quote  { font-size: 12px; margin-bottom: 16px; }
+    #leadership .body-text { font-size: 12px; }
+    .person-name { font-size: 16px; }
+    .person-bio  { font-size: 12px; line-height: 1.7; }
+    .person-info { padding: 20px 24px 24px; }
+
+    /* ── Investors ── */
+    .investors-right { padding: 40px 48px 24px; overflow-y: auto; }
+    .investors-title { font-size: 34px; }
+    .investors-desc  { font-size: 13px; margin-bottom: 14px; }
+    .investors-list li { padding: 6px 0; font-size: 12px; }
+    .btn-investors { padding: 12px 24px; }
+
+    /* ── Contact ── */
+    .contact-left  { padding: 40px 48px 24px; }
+    .contact-right { padding: 40px 48px 24px; }
+    .contact-title { font-size: 34px; }
+    .contact-intro { font-size: 13px; margin-bottom: 16px; }
+    .contact-details { gap: 12px; }
+    .form-group    { margin-bottom: 14px; }
+    .form-group textarea { height: 52px; }
+    .btn-submit    { padding: 12px 32px; }
+
+    /* ── Global ── */
+    .eyebrow       { margin-bottom: 10px; }
+    .section-title { margin-bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAV -->
+<nav id="mainNav" class="transparent">
+  <div class="nav-logo">
+    <img src="https://static.wixstatic.com/media/7e63cd_df42f5632baf408fa7679ef65cfa7f4a~mv2.png" style="height:45px;width:auto;">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="scrollToPanel(0)" class="active" data-panel="0">Home</a></li>
+    <li><a href="#" onclick="scrollToPanel(1)" data-panel="1">Company</a></li>
+    <li><a href="#" onclick="scrollToPanel(2)" data-panel="2">Ventures</a></li>
+    <li><a href="#" onclick="scrollToPanel(3)" data-panel="3">Philosophy</a></li>
+    <li><a href="#" onclick="scrollToPanel(4)" data-panel="4">Leadership</a></li>
+    <li><a href="#" onclick="scrollToPanel(5)" data-panel="5">Investors</a></li>
+    <li><a href="#" onclick="scrollToPanel(6)" data-panel="6">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-btn" onclick="scrollToPanel(6)">Get In Touch</a>
+</nav>
+
+<!-- SCROLL WRAPPER -->
+<div class="scroll-wrapper" id="scrollWrapper">
+
+  <!-- PANEL 1: HERO -->
+  <div class="panel" id="hero">
+    <div class="hero-bg">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="images/hero-video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-inner">
+
+      <!-- LEFT — eyebrow + editorial heading -->
+      <div class="hero-left">
+        <div class="hero-eyebrow">D6 Hospitality Ventures</div>
+        <h1 class="hero-title">
+          <span class="hero-title-line1">Building the Future of</span>
+          <em class="hero-title-line2">Luxury Hospitality</em>
+        </h1>
+      </div>
+
+      <!-- RIGHT — body copy + CTAs -->
+      <div class="hero-right">
+        <p class="hero-body">A hospitality ventures platform working with real estate owners and global brands to develop refined hospitality, dining and lifestyle assets through advisory, partnerships and disciplined long term value creation.</p>
+        <div class="hero-buttons">
+          <a href="#" class="btn-outline hero-btn-1" onclick="scrollToPanel(2)">Explore Ventures</a>
+          <a href="#" class="btn-filled hero-btn-2" onclick="scrollToPanel(5)">Partner With Us</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PANEL 2: COMPANY — Cinematic editorial luxury -->
+  <div class="panel" id="company">
+
+    <!-- Full-bleed cinematic image — atmospheric base layer -->
+    <div class="co-img-wrap">
+      <img class="co-img"
+           src="d6-images/DSC_5800LR.jpg"
+           alt="D6 Hospitality Ventures — Where Vision Meets Execution"
+           style="object-position: center 38%;">
+      <!-- Atmospheric editorial typography — horizontal floating composition, no background -->
+      <div class="co-atmosphere">
+        <div class="co-atmo-block co-atmo-block--num">
+          <div class="co-atmo-num">3</div>
+          <div class="co-atmo-label">Asset Classes</div>
+        </div>
+        <div class="co-atmo-block co-atmo-block--num">
+          <div class="co-atmo-num">4</div>
+          <div class="co-atmo-label">Partnership Models</div>
+        </div>
+        <div class="co-atmo-block">
+          <div class="co-atmo-num co-atmo-num--word">Global</div>
+          <div class="co-atmo-label">Brand Network</div>
+        </div>
+        <div class="co-atmo-block">
+          <div class="co-atmo-num co-atmo-num--word">Asia&#8202;Pacific</div>
+          <div class="co-atmo-label">Primary Focus</div>
+        </div>
+      </div>
+
+      <div class="co-img-vignette"></div>
+    </div>
+
+    <!-- Floating editorial text block — right side, vertically centered -->
+    <div class="co-editorial">
+      <div class="eyebrow co-anim co-anim--d1">Who We Are</div>
+      <h2 class="section-title co-anim co-anim--d2">Where Vision<br>Meets <em>Execution</em></h2>
+      <p class="lead-text co-anim co-anim--d3">The luxury hospitality landscape is evolving. We're the <span class="txt-accent">platform</span> built to lead it.</p>
+      <p class="body-text co-anim co-anim--d4">D6 Hospitality Ventures bridges the gap between vision and execution. We work with <span class="txt-accent">developers</span> who understand potential, <span class="txt-accent">investors</span> who think long-term, and <span class="txt-accent">global brands</span> seeking strategic expansion.</p>
+      <p class="body-text co-anim co-anim--d5">Our approach is disciplined: <span class="txt-accent">strategic positioning</span>, <span class="txt-accent">design excellence</span>, and <span class="txt-accent">operational clarity</span> from day one. No shortcuts. No guesswork.</p>
+      <p class="pull-quote co-anim co-anim--d6">Assets that command their market. Returns that reflect <span class="txt-accent">true value</span>. <span class="txt-accent">Partnerships</span> built to last.</p>
+    </div>
+
+  </div>
+
+  <!-- PANEL 3: VENTURES -->
+  <div id="ventures">
+
+    <!-- 01 — Intro: full-width editorial -->
+    <div class="venture-panel venture-panel--intro">
+      <div class="venture-bg" style="background-image:url('d6-images/DSC_5693LR.jpg'); background-position: center center;"></div>
+      <div class="venture-overlay"></div>
+      <div class="venture-intro-wrap">
+        <div class="venture-intro-eyebrow-row venture-anim venture-anim--d1">
+          <span class="venture-eyebrow-dash"></span>
+          <span class="venture-intro-label">Our Ventures</span>
+        </div>
+        <div class="venture-intro-heading-block" style="margin-top: 32px;">
+          <h2 class="venture-intro-h venture-anim venture-anim--d2">Three Verticals.</h2>
+          <h2 class="venture-intro-h venture-anim venture-anim--d3">Infinite Possibilities.</h2>
+        </div>
+        <p class="venture-intro-desc venture-reveal venture-reveal--d1">From boutique hotels that redefine luxury to dining concepts that become destinations, we create assets discerning travelers seek and investors trust.</p>
+      </div>
+    </div>
+
+    <!-- 02 — Hotels & Resorts: 55vw peek card -->
+    <div class="venture-panel venture-panel--split venture-panel--card">
+      <div class="venture-split-img">
+        <div class="venture-bg" style="background-image:url('d6-images/Venture_01_Design_C.jpg'); background-position: center center;"></div>
+      </div>
+      <div class="venture-card-overlay"></div>
+      <span class="venture-big-num">01</span>
+      <div class="venture-card-content">
+        <p class="venture-eyebrow venture-anim venture-anim--d1">Boutique Hotels, Resorts &amp; Lifestyle</p>
+        <h3 class="venture-title venture-anim venture-anim--d2">Design-Led<br><em>Luxury</em></h3>
+        <p class="venture-tagline venture-reveal venture-reveal--d1">Where architecture tells a story</p>
+        <div class="venture-divider venture-reveal venture-reveal--d2"></div>
+        <p class="venture-desc venture-reveal venture-reveal--d3">Heritage conversions and new-builds. Positioned for the discerning traveler who values craft, design and authentic luxury.</p>
+        <div class="venture-tags venture-reveal venture-reveal--d4">
+          <span class="venture-tag">Brand Positioning</span>
+          <span class="venture-tag">Design Oversight</span>
+          <span class="venture-tag">Operator Selection</span>
+          <span class="venture-tag">Asset Management</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 — Dining: 55vw peek card -->
+    <div class="venture-panel venture-panel--split venture-panel--card">
+      <div class="venture-split-img">
+        <div class="venture-bg" style="background-image:url('d6-images/Venture_01_Resturant_B.jpg'); background-position: center center;"></div>
+      </div>
+      <div class="venture-card-overlay"></div>
+      <span class="venture-big-num">02</span>
+      <div class="venture-card-content">
+        <p class="venture-eyebrow venture-anim venture-anim--d1">Premium Restaurant &amp; Café Experiences</p>
+        <h3 class="venture-title venture-anim venture-anim--d2">Destinations,<br><em>Not Restaurants</em></h3>
+        <p class="venture-tagline venture-reveal venture-reveal--d1">Dining experiences worth the journey</p>
+        <div class="venture-divider venture-reveal venture-reveal--d2"></div>
+        <p class="venture-desc venture-reveal venture-reveal--d3">Standalone concepts. Hotel F&amp;B anchors. Lifestyle destinations. Designed for the evolved global palate.</p>
+        <div class="venture-tags venture-reveal venture-reveal--d4">
+          <span class="venture-tag">Concept Creation</span>
+          <span class="venture-tag">Chef Partnerships</span>
+          <span class="venture-tag">Operations Setup</span>
+          <span class="venture-tag">Brand Building</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 — Lifestyle: 100vw full panel (closes the ventures section) -->
+    <div class="venture-panel venture-panel--split">
+      <div class="venture-split-img">
+        <div class="venture-bg" style="background-image:url('d6-images/Venture_03_Culture_B.jpg'); background-position: center center;"></div>
+      </div>
+      <div class="venture-card-overlay"></div>
+      <span class="venture-big-num">03</span>
+      <div class="venture-card-content">
+        <p class="venture-eyebrow venture-anim venture-anim--d1">Experiential Lifestyle Spaces</p>
+        <h3 class="venture-title venture-anim venture-anim--d2">Where Culture<br><em>Meets Commerce</em></h3>
+        <p class="venture-tagline venture-reveal venture-reveal--d1">Spaces that become communities</p>
+        <div class="venture-divider venture-reveal venture-reveal--d2"></div>
+        <p class="venture-desc venture-reveal venture-reveal--d3">Co-working meets hospitality. Wellness meets design. We create third spaces where the creative class wants to be.</p>
+        <div class="venture-tags venture-reveal venture-reveal--d4">
+          <span class="venture-tag">Space Programming</span>
+          <span class="venture-tag">Community Building</span>
+          <span class="venture-tag">F&amp;B Integration</span>
+          <span class="venture-tag">Event &amp; Membership</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL 4: PHILOSOPHY -->
+  <div class="panel" id="philosophy">
+
+    <!-- LEFT — intro label + heading + body -->
+    <div class="philosophy-intro">
+      <div class="eyebrow sec-anim sec-anim--d1">The D6 Way</div>
+      <h2 class="section-title sec-anim sec-anim--d2">Our Operating<br><em>Philosophy</em></h2>
+      <p class="lead-text sec-anim sec-anim--d3">D6 approaches hospitality as a real estate led and design driven discipline where positioning, planning and execution must be aligned from inception.</p>
+    </div>
+
+    <!-- RIGHT — large number rows -->
+    <div class="philosophy-rows">
+      <div class="phil-row sec-anim sec-anim--d3">
+        <div class="phil-num">01</div>
+        <div class="phil-text">Hospitality is fundamentally<br>a real estate led business</div>
+      </div>
+      <div class="phil-row sec-anim sec-anim--d4">
+        <div class="phil-num">02</div>
+        <div class="phil-text">Design and positioning define<br>long term asset relevance</div>
+      </div>
+      <div class="phil-row sec-anim sec-anim--d5">
+        <div class="phil-num">03</div>
+        <div class="phil-text">Discipline in development<br>protects brand and asset value</div>
+      </div>
+      <div class="phil-row sec-anim sec-anim--d6">
+        <div class="phil-num">04</div>
+        <div class="phil-text">Partnerships must align on clarity,<br>intent and long term outcomes</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL 5: LEADERSHIP -->
+  <div class="panel" id="leadership">
+    <div class="leadership-left">
+      <div class="eyebrow sec-anim sec-anim--d1">Our Leadership</div>
+      <h2 class="section-title sec-anim sec-anim--d2">The People<br>Behind <em>The<br>Platform</em></h2>
+      <p class="body-text sec-anim sec-anim--d3">D6 is led by a team with deep conviction in disciplined, design-led hospitality development, bringing expertise across real estate, brand strategy and operational execution.</p>
+    </div>
+    <div class="leadership-right">
+      <div class="person-card sec-anim sec-anim--d3">
+        <div class="person-photo-wrap">
+          <img class="person-photo" src="images/saurabh-dabas.jpg" alt="Saurabh Dabas — Founder &amp; Managing Director" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=820&fit=crop&crop=faces,top&auto=format&q=80'" style="object-position: 52% top;">
+        </div>
+        <div class="person-info">
+          <div class="person-initials">SD</div>
+          <div class="person-name">Saurabh Dabas</div>
+          <div class="person-role">Founder &amp; Managing Director</div>
+          <p class="person-bio">Founder and Managing Director of D6 Hospitality Ventures, a platform focused on the development of luxury hospitality, dining and lifestyle assets. He established D6 with the vision of building disciplined, design-led and culturally relevant hospitality ventures that combine long term asset value with refined guest experiences.</p>
+        </div>
+      </div>
+      <div class="person-card sec-anim sec-anim--d4">
+        <div class="person-photo-wrap">
+          <img class="person-photo" src="images/rajesh-kumar.jpg" alt="Rajesh Kumar — Director" onerror="this.src='https://images.unsplash.com/photo-1658797509048-7cdb50c24257?w=600&h=820&fit=crop&crop=faces,top&auto=format&q=80'">
+        </div>
+        <div class="person-info">
+          <div class="person-initials">RK</div>
+          <div class="person-name">Rajesh Kumar</div>
+          <div class="person-role">Director</div>
+          <p class="person-bio">A hospitality professional with nearly three decades of experience across hotel operations, governance, business development and luxury hospitality standards. His approach combines operational discipline with structured business thinking, ensuring hospitality assets are aligned across design, positioning, guest experience and commercial sustainability.</p>
+        </div>
+      </div>
+      <div class="person-card sec-anim sec-anim--d5">
+        <div class="person-photo-wrap">
+          <img class="person-photo" src="images/suryaansh-malhan.jpg" alt="Suryaansh Malhan — Head of Business Operations" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=820&fit=crop&crop=faces,top&auto=format&q=80'">
+        </div>
+        <div class="person-info">
+          <div class="person-initials">SM</div>
+          <div class="person-name">Suryaansh Malhan</div>
+          <div class="person-role">Head of Business Operations</div>
+          <p class="person-bio">With a background in Computer Science Engineering and a contemporary approach to systems and process thinking, he supports operational efficiency, workflow alignment and evolving hospitality experiences across the platform. His role focuses on execution support, process refinement, technology integration and day to day operational coordination.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 6: INVESTORS -->
+  <div class="panel" id="investors">
+
+    <!-- LEFT COLUMN — editorial copy -->
+    <div class="inv-left">
+      <div class="inv-eyebrow sec-anim sec-anim--d1">Aligned Capital</div>
+      <h2 class="inv-title sec-anim sec-anim--d2">Disciplined Capital<br><em>In Luxury Hospitality</em></h2>
+      <p class="inv-desc sec-anim sec-anim--d3">D6 partners with aligned capital and global brands to structure and develop hospitality and real estate assets with clarity and discipline. Each engagement is defined by a clear development approach and long term asset focus.</p>
+      <button class="inv-cta sec-anim sec-anim--d4" onclick="scrollToPanel(6)">Initiate Investment Discussion</button>
+    </div>
+
+    <!-- RIGHT COLUMN — editorial numbered timeline -->
+    <div class="inv-right">
+      <div class="inv-timeline">
+        <div class="inv-vline"></div>
+
+        <div class="inv-row sec-anim sec-anim--d2">
+          <span class="inv-dot"></span>
+          <span class="inv-hline"></span>
+          <div class="inv-num">01</div>
+          <div class="inv-item-text">Development structuring and asset positioning<br>aligned to real estate and market context</div>
+        </div>
+
+        <div class="inv-row sec-anim sec-anim--d3">
+          <span class="inv-dot"></span>
+          <span class="inv-hline"></span>
+          <div class="inv-num">02</div>
+          <div class="inv-item-text">Brand creation and global hospitality<br>brand access</div>
+        </div>
+
+        <div class="inv-row sec-anim sec-anim--d4">
+          <span class="inv-dot"></span>
+          <span class="inv-hline"></span>
+          <div class="inv-num">03</div>
+          <div class="inv-item-text">Design alignment — concept, space and<br>experience coherence</div>
+        </div>
+
+        <div class="inv-row sec-anim sec-anim--d5">
+          <span class="inv-dot"></span>
+          <span class="inv-hline"></span>
+          <div class="inv-num">04</div>
+          <div class="inv-item-text">Operational planning and pre-opening strategy</div>
+        </div>
+
+        <div class="inv-row sec-anim sec-anim--d6">
+          <span class="inv-dot"></span>
+          <span class="inv-hline"></span>
+          <div class="inv-num">05</div>
+          <div class="inv-item-text">Governance discipline and long term<br>value creation</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL 7: CONTACT -->
+  <div class="panel" id="contact">
+    <div class="contact-left">
+      <div>
+        <div class="eyebrow sec-anim sec-anim--d1">Get In Touch</div>
+        <h2 class="contact-title sec-anim sec-anim--d2">Start A<br><span style="color:rgba(255,255,255,0.90);">Conversation</span></h2>
+        <p class="contact-intro sec-anim sec-anim--d3">Whether you're a developer, investor, brand or operator —<br>if you're serious about luxury hospitality development, let's connect.</p>
+        <div class="contact-details sec-anim sec-anim--d4">
+          <div>
+            <div class="contact-item-label">Asia-Pacific Office</div>
+            <div class="contact-item-value">7, Lally Tollendal Street<br>White Town, Puducherry — 605001</div>
+          </div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-value">+91 97899 44436</div>
+          </div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">info@d6hospitality.com</div>
+          </div>
+          <div>
+            <div class="contact-item-label">Web</div>
+            <div class="contact-item-value">www.d6hospitality.com</div>
+          </div>
+        </div>
+      </div>
+      <p class="contact-disclaimer sec-anim sec-anim--d5">All enquiries are non-binding and subject to further evaluation and formal agreements.</p>
+    </div>
+    <div class="contact-right">
+      <div class="form-row sec-anim sec-anim--d3">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Surname">
+        </div>
+      </div>
+      <div class="form-row sec-anim sec-anim--d4">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@company.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+91 00000 00000">
+        </div>
+      </div>
+      <div class="form-group sec-anim sec-anim--d5">
+        <label>Enquiry Type</label>
+        <select>
+          <option value="">Select type</option>
+          <option>Development Partnership</option>
+          <option>Investment Opportunity</option>
+          <option>Brand Licensing</option>
+          <option>Advisory Services</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+      <div class="form-group sec-anim sec-anim--d5">
+        <label>Organisation</label>
+        <input type="text" placeholder="Company or organisation">
+      </div>
+      <div class="form-group sec-anim sec-anim--d6">
+        <label>Message</label>
+        <textarea placeholder="Describe your interest or enquiry..."></textarea>
+      </div>
+      <button class="btn-submit sec-anim sec-anim--d7">Submit Enquiry</button>
+    </div>
+  </div>
+
+</div><!-- end scroll-wrapper -->
+
+<!-- FOOTER — fixed viewport strip -->
+<footer id="mainFooter">
+  <span class="footer-left">© 2026 D6 Hospitality Ventures Pvt. Ltd. — Puducherry, India</span>
+  <span class="footer-center">
+    <span class="ste-wrap">
+      <span class="ste-text">Scroll to Explore</span>
+      <span class="ste-arrow-wrap"><span class="ste-arrow"></span></span>
+    </span>
+  </span>
+  <div class="footer-right">
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+  </div>
+</footer>
+
+<!-- MAIN SCRIPT -->
+<script>
+const TOTAL_STOPS = 10;
+let currentStop = 0;
+let companyAnimated = false;
+function animateCompany() {
+  if (companyAnimated) return;
+  companyAnimated = true;
+  document.getElementById('company').classList.add('co-entered');
+}
+
+/* Generic one-shot entrance animator — adds .sec-entered to the panel element */
+const animatedSections = new Set();
+function animateSection(id) {
+  if (animatedSections.has(id)) return;
+  animatedSections.add(id);
+  const el = document.getElementById(id);
+  if (el) el.classList.add('sec-entered');
+}
+
+/* ══ VENTURES COMPOSITIONAL ENGINE ══
+   All 4 panels always coexist within 100vw.
+   setActiveVenture(idx) shifts the visual weight without moving the wrapper.
+   Proportions: Active≈62vw  Left-secondary≈22vw  Right-secondary≈24vw  Tertiary≈11vw  Hidden≈3vw  */
+
+// [intro, hotels, dining, lifestyle] widths in vw — each state sums to 100
+const VENTURE_LAYOUTS = [
+  [62, 24, 11, 3],   // 0 active: intro dominant
+  [22, 62, 13, 3],   // 1 active: hotels dominant
+  [3,  22, 62, 13],  // 2 active: dining dominant
+  [3,  11, 24, 62],  // 3 active: lifestyle dominant
+];
+
+const venturePanels = Array.from(document.querySelectorAll('.venture-panel'));
+const animatedVentures = new Set();
+let activeVentureIndex = -1;
+
+function setActiveVenture(idx, instant) {
+  if (idx < 0 || idx > 3) return;
+  activeVentureIndex = idx;
+  const layout = VENTURE_LAYOUTS[idx];
+  venturePanels.forEach((p, i) => {
+    if (instant) p.style.transition = 'none';
+    p.style.width = layout[i] + 'vw';
+    p.classList.toggle('vp-dominant', i === idx);
+    p.classList.toggle('vp-inactive',  i !== idx);
+    if (instant) requestAnimationFrame(() => p.style.transition = '');
+    // First-time content reveal: trigger staggered animations
+    if (i === idx && !animatedVentures.has(i)) {
+      animatedVentures.add(i);
+      setTimeout(() => p.classList.add('vp-entered'), instant ? 0 : 180);
+    }
+  });
+}
+
+/* Mobile fallback — classic one-shot entrance per panel */
+const animatedVenturesMobile = new Set();
+function animateVenturePanelMobile(stop) {
+  const idx = stop - 2;
+  if (animatedVenturesMobile.has(idx)) return;
+  animatedVenturesMobile.add(idx);
+  const p = venturePanels[idx];
+  if (p) { p.classList.add('vp-dominant'); p.classList.add('vp-entered'); }
+}
+
+/* Initialize layout immediately (no animation) so first visit has correct state */
+(function initVentures() {
+  venturePanels.forEach(p => {
+    p.style.transition = 'none';
+    p.style.width = VENTURE_LAYOUTS[0][venturePanels.indexOf(p)] + 'vw';
+    p.classList.add('vp-inactive');
+  });
+  requestAnimationFrame(() => venturePanels.forEach(p => p.style.transition = ''));
+})();
+let startX = 0;
+let isDragging = false;
+
+const wrapper     = document.getElementById('scrollWrapper');
+const nav         = document.getElementById('mainNav');
+const footer      = document.getElementById('mainFooter');
+const progressBar = document.getElementById('progressBar');
+
+const NAV_MAP = [0, 1, 2, 2, 2, 2, 3, 4, 5, 6];
+
+/* ── Compositional ventures layout:
+   Desktop: #ventures is always 100vw — panels shift widths internally.
+   Wrapper stays at 2×vw for all venture stops (2-5).
+   Mobile: each venture panel is 100vw — traditional 4-panel slider.
+   Layout: Hero(100vw) | Company(100vw) | Ventures(100vw) | Philosophy(100vw)... */
+function getStopPositions() {
+  const vw = window.innerWidth;
+  const isMobile = vw <= 750;
+  if (isMobile) {
+    // Mobile: ventures is 4 × 100vw, all stops equally spaced
+    return Array.from({ length: TOTAL_STOPS }, (_, i) => i * vw);
+  }
+  // Desktop: ventures rebalances internally — wrapper locked at 2×vw
+  return [
+    0,        // 0: Hero
+    vw,       // 1: Company
+    2 * vw,   // 2: Ventures intro  ─┐ same wrapper offset
+    2 * vw,   // 3: Hotels           │ panel widths shift via
+    2 * vw,   // 4: Dining           │ setActiveVenture()
+    2 * vw,   // 5: Lifestyle       ─┘
+    3 * vw,   // 6: Philosophy
+    4 * vw,   // 7: Leadership
+    5 * vw,   // 8: Investors
+    6 * vw,   // 9: Contact
+  ];
+}
+
+function scrollToStop(index, animate = true) {
+  if (index < 0 || index >= TOTAL_STOPS) return;
+  const prevOffset = getStopPositions()[currentStop];
+  currentStop = index;
+  const offset = getStopPositions()[index];
+  /* Only touch the wrapper transform when the scroll position actually changes.
+     Within ventures (stops 2-5) the offset is always 2*vw — skipping the
+     transition/transform re-apply prevents compositor interference that caused flicker. */
+  if (offset !== prevOffset) {
+    wrapper.style.transition = animate
+      ? 'transform 1.05s cubic-bezier(0.16, 1, 0.3, 1)'
+      : 'none';
+    wrapper.style.transform = `translateX(-${offset}px)`;
+  }
+  updateUI();
+}
+
+function scrollToPanel(panelIndex, animate = true) {
+  const stopMap = [0, 1, 2, 6, 7, 8, 9];
+  scrollToStop(stopMap[panelIndex], animate);
+}
+
+function updateUI() {
+  const navIndex = NAV_MAP[currentStop];
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', parseInt(a.dataset.panel) === navIndex);
+  });
+  nav.classList.toggle('transparent', currentStop === 0);
+  const darkStops = [0, 2, 3, 4, 5];
+  footer.classList.toggle('dark', darkStops.includes(currentStop));
+  document.getElementById('d6-cursor').classList.toggle('light', darkStops.includes(currentStop));
+  const progress = (currentStop / (TOTAL_STOPS - 1)) * 100;
+  progressBar.style.width = progress + '%';
+  if (currentStop === 1) animateCompany();
+  if (currentStop >= 2 && currentStop <= 5) {
+    const isMobile = window.innerWidth <= 750;
+    if (isMobile) animateVenturePanelMobile(currentStop);
+    else setActiveVenture(currentStop - 2, false);
+  }
+  if (currentStop === 6)  animateSection('philosophy');
+  if (currentStop === 7)  animateSection('leadership');
+  if (currentStop === 8)  animateSection('investors');
+  if (currentStop === 9)  animateSection('contact');
+}
+
+let isScrolling = false;
+let scrollAccumulator = 0;
+
+window.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  scrollAccumulator += Math.abs(e.deltaY) + Math.abs(e.deltaX);
+  if (isScrolling) return;
+  if (scrollAccumulator < 30) return;
+  isScrolling = true;
+  scrollAccumulator = 0;
+  scrollToStop(e.deltaY > 0 || e.deltaX > 0 ? currentStop + 1 : currentStop - 1);
+  setTimeout(() => { isScrolling = false; scrollAccumulator = 0; }, 950);
+}, { passive: false });
+
+window.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX; });
+window.addEventListener('mouseup',   (e) => {
+  if (!isDragging) return;
+  isDragging = false;
+  const diff = startX - e.clientX;
+  if (Math.abs(diff) > 60) scrollToStop(diff > 0 ? currentStop + 1 : currentStop - 1);
+});
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') scrollToStop(currentStop + 1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   scrollToStop(currentStop - 1);
+});
+
+let touchStartX = 0;
+window.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+window.addEventListener('touchend',   (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 60) scrollToStop(diff > 0 ? currentStop + 1 : currentStop - 1);
+});
+
+// On resize, recalculate offset for current stop (peek positions are vw-relative)
+window.addEventListener('resize', () => {
+  scrollToStop(currentStop, false);
+});
+
+scrollToStop(0, false);
+</script>
+
+<!-- ─── NEW CURSOR SYSTEM ─── -->
+<style>
+  * { cursor: none !important; }
+  #d6-cursor {
+    position: fixed; z-index: 99999; pointer-events: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #8d878a; mix-blend-mode: multiply;
+    transform: translate(-50%, -50%);
+    transition: width 0.35s, height 0.35s, background 0.3s;
+    will-change: transform;
+  }
+  /* White dot on dark-background panels */
+  #d6-cursor.light {
+    background: #faf9f8;
+    mix-blend-mode: normal;
+  }
+  #d6-cursor-ring {
+    position: fixed; z-index: 99998; pointer-events: none;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid #8d878a;
+    transform: translate(-50%, -50%);
+    opacity: 0.45; transition: opacity 0.4s;
+    will-change: transform;
+  }
+  #d6-cursor.big {
+    width: 72px; height: 72px;
+    background: #8d878a; mix-blend-mode: normal; opacity: 0.18;
+  }
+  #d6-cursor.light.big {
+    background: #faf9f8;
+    mix-blend-mode: normal; opacity: 0.18;
+  }
+  @media (max-width: 768px) {
+    * { cursor: auto !important; }
+    #d6-cursor, #d6-cursor-ring { display: none; }
+  }
+</style>
+<div id="d6-cursor"></div>
+<div id="d6-cursor-ring"></div>
+<script>
+(function () {
+  var cur  = document.getElementById('d6-cursor');
+  var ring = document.getElementById('d6-cursor-ring');
+  var mx=0,my=0,rx=0,ry=0,rrx=0,rry=0;
+  document.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
+  (function loop(){
+    rx  += (mx  - rx)  * 0.15;
+    ry  += (my  - ry)  * 0.15;
+    rrx += (mx  - rrx) * 0.08;
+    rry += (my  - rry) * 0.08;
+    cur.style.left  = rx  + 'px';
+    cur.style.top   = ry  + 'px';
+    ring.style.left = rrx + 'px';
+    ring.style.top  = rry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener('mouseover', function(e){
+    if (e.target.closest('a,button,[role="button"]')) cur.classList.add('big');
+  });
+  document.addEventListener('mouseout', function(e){
+    if (e.target.closest('a,button,[role="button"]')) cur.classList.remove('big');
+  });
+})();
+</script>
+
+</body>
+</html>
