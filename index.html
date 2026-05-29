@@ -1971,7 +1971,7 @@
     .venture-panel:not(.vp-dominant) .venture-card-content,
     .venture-panel:not(.vp-dominant) .venture-intro-wrap { opacity: 1; }
     .venture-panel .venture-bg { transform: scale(1.0) translateZ(0) !important; }
-    .venture-card-content { left: 24px; right: 24px; bottom: 56px; }
+    .venture-card-content { left: 20px; right: 20px; bottom: 56px; }
     .venture-split-panel-num { margin-bottom: 12px; }
     .venture-intro-wrap { left: 24px; right: 24px; bottom: 56px; }
     .venture-intro-eyebrow-row { margin-bottom: 20px; }
@@ -2507,14 +2507,14 @@
       position: absolute !important;
       display: flex !important;
       flex-direction: column !important;
-      justify-content: flex-end !important;
-      bottom: 0 !important;
+      justify-content: flex-start !important;
+      bottom: auto !important;
       left: 0 !important;
       right: 0 !important;
-      top: auto !important;
+      top: calc(env(safe-area-inset-top, 0px) + 88px) !important;
       width: 100% !important;
       max-width: 100% !important;
-      padding: 44px 28px 60px !important;
+      padding: 0 28px !important;
       background: none !important;
       box-shadow: none !important;
       backdrop-filter: none !important;
@@ -2525,6 +2525,7 @@
     .co-editorial .section-title {
       font-size: clamp(28px, 8.5vw, 46px) !important;
       color: var(--warm-white) !important;
+      overflow: visible !important;
     }
     .co-editorial .section-title em { color: rgba(255,255,255,0.58) !important; }
     .co-editorial .lead-text,
@@ -2544,6 +2545,197 @@
     .co-atmo-num { font-size: 22px !important; color: rgba(255,255,255,0.88) !important; }
     .co-atmo-num--word { font-size: 18px !important; }
     .co-atmo-label { color: rgba(255,255,255,0.48) !important; }
+
+    @media (max-width: 768px) {
+      #company {
+        height: auto !important;
+        min-height: calc(100vh - 500px) !important;
+        min-height: calc(100dvh - 500px) !important;
+        overflow: hidden !important;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 168px) !important;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px) !important;
+      }
+
+      #company .co-img-wrap {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      #company .co-editorial {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        z-index: 2 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 28px !important;
+        padding-right: 28px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      #company .co-editorial .eyebrow {
+        font-size: 8px !important;
+        letter-spacing: 0.32em !important;
+        line-height: 1.2 !important;
+        margin-bottom: 24px !important;
+        color: rgba(255,255,255,0.55) !important;
+      }
+
+      #company .co-editorial .eyebrow::before {
+        width: 22px !important;
+        background: rgba(255,255,255,0.28) !important;
+      }
+
+      #company .co-editorial .section-title {
+        font-size: clamp(34px, 9.4vw, 40px) !important;
+        line-height: 1.02 !important;
+        letter-spacing: -0.02em !important;
+        margin-bottom: 28px !important;
+        padding-bottom: 0.24em !important;
+        color: rgba(255,255,255,0.62) !important;
+        overflow: visible !important;
+      }
+
+      #company .co-editorial .section-title em {
+        color: rgba(255,255,255,0.94) !important;
+      }
+
+      #company .co-editorial .lead-text,
+      #company .co-editorial .body-text,
+      #company .co-editorial .pull-quote {
+        display: block !important;
+      }
+
+      #company .co-editorial .lead-text {
+        font-size: 15px !important;
+        line-height: 1.75 !important;
+        max-width: 340px !important;
+        margin-top: 0 !important;
+        margin-bottom: 32px !important;
+        color: rgba(255,255,255,0.82) !important;
+      }
+
+      #company .co-editorial .body-text {
+        font-size: 14px !important;
+        line-height: 1.9 !important;
+        max-width: 360px !important;
+        margin-bottom: 26px !important;
+        color: rgba(255,255,255,0.72) !important;
+      }
+
+      #company .co-editorial .txt-accent {
+        font-weight: 500 !important;
+        color: rgba(255,255,255,0.92) !important;
+      }
+
+      #company .co-editorial .pull-quote {
+        max-width: 320px !important;
+        margin-top: 46px !important;
+        margin-bottom: 0 !important;
+        padding-left: 28px !important;
+        border-top: 0 !important;
+        border-left: 1px solid rgba(255,255,255,0.25) !important;
+        font-size: 14px !important;
+        line-height: 1.9 !important;
+        font-style: normal !important;
+        color: rgba(255,255,255,0.82) !important;
+      }
+
+      #company .co-editorial .pull-quote::before {
+        display: none !important;
+      }
+
+      #company .co-atmosphere {
+        position: relative !important;
+        inset: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 34px 28px !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 68px 0 72px !important;
+        padding: 40px 28px 0 !important;
+        z-index: 2 !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        opacity: 0.35 !important;
+      }
+
+      #company .co-atmosphere::before {
+        display: none !important;
+      }
+
+      #company .co-atmosphere::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 40px !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        width: 1px !important;
+        background: rgba(255,255,255,0.25) !important;
+        transform: translateX(-50%) !important;
+      }
+
+      #company .co-atmo-block:nth-child(1),
+      #company .co-atmo-block:nth-child(2) {
+        border-bottom: 1px solid rgba(255,255,255,0.25) !important;
+        padding-bottom: 22px !important;
+      }
+
+      #company .co-atmo-block {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        gap: 14px !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+
+      #company .co-atmo-num {
+        font-size: clamp(42px, 11.5vw, 52px) !important;
+        font-weight: 300 !important;
+        line-height: 1 !important;
+        letter-spacing: -0.02em !important;
+        color: rgba(255,255,255,0.75) !important;
+        -webkit-text-stroke: 0 !important;
+        height: auto !important;
+        display: block !important;
+      }
+
+      #company .co-atmo-num--word {
+        font-size: clamp(42px, 11.5vw, 52px) !important;
+        letter-spacing: -0.02em !important;
+        line-height: 1 !important;
+      }
+
+      #company .co-atmo-label {
+        font-size: 10px !important;
+        letter-spacing: 0.25em !important;
+        text-transform: uppercase !important;
+        color: rgba(255,255,255,0.45) !important;
+        line-height: 1.55 !important;
+      }
+    }
 
     #ventures {
       display: block !important;
@@ -2572,7 +2764,7 @@
     .venture-card-content {
       position: relative !important;
       z-index: 2 !important;
-      padding: 0 24px 52px !important;
+      padding: 0 20px 52px !important;
     }
     .venture-intro-wrap {
       position: relative !important;
@@ -3548,6 +3740,14 @@ if (isMobile()) {
    ═══════════════════════════════════════════════════════════════ */
 (function initMobileCinema() {
   if (!isMobile()) return;
+
+  const company = document.getElementById('company');
+  const companyEditorial = company?.querySelector('.co-editorial');
+  const companyMetrics = company?.querySelector('.co-atmosphere');
+  if (company && companyEditorial && companyMetrics && !companyMetrics.dataset.mobFlow) {
+    companyEditorial.insertAdjacentElement('afterend', companyMetrics);
+    companyMetrics.dataset.mobFlow = '1';
+  }
 
   const slides = [
     { sel: '#company .co-atmosphere', delay: 180 },
