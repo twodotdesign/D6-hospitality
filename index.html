@@ -555,6 +555,7 @@
     opacity: 1;
     transform: translateY(-50%) translateX(0);
   }
+  .co-mobile-metrics { display: none; }
 
   /* Company pull-quote — editorial left-border signature */
   #company .pull-quote {
@@ -1233,6 +1234,9 @@
     line-height: 1.85;
     color: var(--text-body);
   }
+  .person-divider,
+  .person-more,
+  .person-accordion-arrow { display: none; }
 
   /* ─── INVESTORS PANEL ─── */
   #investors {
@@ -1476,6 +1480,58 @@
     line-height: 1.82;
     color: rgba(255,255,255,0.76);
   }
+
+  /* Investors dark theme refinement */
+  #investors,
+  #investors .inv-left,
+  #investors .inv-right {
+    background: #1e1c1d !important;
+  }
+
+  #investors .inv-eyebrow {
+    color: rgba(255,255,255,0.45) !important;
+  }
+
+  #investors .inv-eyebrow::before {
+    background: rgba(255,255,255,0.32) !important;
+  }
+
+  #investors .inv-title {
+    color: rgba(255,255,255,0.42) !important;
+  }
+
+  #investors .inv-title em {
+    color: rgba(255,255,255,0.92) !important;
+  }
+
+  #investors .inv-desc {
+    color: rgba(255,255,255,0.58) !important;
+  }
+
+  #investors .inv-num {
+    color: rgba(255,255,255,0.72) !important;
+  }
+
+  #investors .inv-item-text {
+    color: rgba(255,255,255,0.70) !important;
+  }
+
+  #investors .inv-row {
+    border-top-color: rgba(255,255,255,0.10) !important;
+  }
+
+  #investors .inv-row:last-child {
+    border-bottom-color: rgba(255,255,255,0.10) !important;
+  }
+
+  #investors .inv-vline,
+  #investors .inv-hline {
+    background: rgba(255,255,255,0.16) !important;
+  }
+
+  #investors .inv-dot {
+    background: rgba(255,255,255,0.45) !important;
+  }
   @media (max-width: 750px) {
     #investors { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; min-height: 100dvh; }
     .inv-left  { padding: 72px 24px 40px; }
@@ -1626,6 +1682,7 @@
     border-color: var(--text-body);
     letter-spacing: 0.18em;
   }
+  .contact-mobile-shell { display: none; }
 
   /* ─── PROGRESS BAR ─── */
   .progress-bar {
@@ -2292,7 +2349,7 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(22px, 6vw, 38px);
     font-weight: 300;
-    color: rgba(0,0,0,0.45);
+    color: rgba(30, 28, 29, 0.42);
     text-decoration: none;
     padding: 16px 0;
     text-align: center;
@@ -2312,7 +2369,8 @@
     border-top: 1px solid rgba(47,47,47,0.14);
   }
   .mob-link::after { display: none; }
-  .mob-link--active { color: rgba(0,0,0,0.90) !important; }
+  .mob-link.mob-link--active,
+  .mob-nav .mob-link.mob-link--active { color: #1e1c1d !important; }
   .mob-link:hover,
   .mob-link:active  { color: rgba(0,0,0,0.90); }
   .mob-nav.open .mob-link { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -2365,21 +2423,25 @@
       overflow-x: hidden !important;
     }
 
-    html { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; }
-    body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; }
+    html { overflow: hidden !important; height: 100vh !important; height: 100dvh !important; }
+    body { overflow: hidden !important; height: 100vh !important; height: 100dvh !important; }
 
     .scroll-wrapper {
-      display: block !important;
-      width: 100% !important;
-      height: auto !important;
-      transform: none !important;
-      transition: none !important;
+      display: flex !important;
+      flex-direction: row !important;
+      width: max-content !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      transform: translateX(0);
     }
 
     .panel {
-      width: 100% !important;
-      flex-shrink: unset !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      flex: 0 0 100vw !important;
       display: block !important;
+      overflow: hidden !important;
     }
 
     .progress-bar { display: none !important; }
@@ -2414,6 +2476,59 @@
       top: auto !important;
       transform: none !important;
       order: 1 !important;
+    }
+    .mob-nav {
+      position: fixed !important;
+    }
+    .mob-nav-bd {
+      position: relative !important;
+      justify-content: flex-start !important;
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 92px) !important;
+    }
+    .mob-nav-links {
+      width: min(100%, 320px) !important;
+    }
+    .mob-nav-footer {
+      position: absolute !important;
+      left: 50% !important;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
+      transform: translate3d(-50%, 12px, 0) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 36px !important;
+      margin-top: 48px !important;
+      opacity: 0 !important;
+      transition: opacity 0.48s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.48s cubic-bezier(0.16,1,0.3,1) !important;
+      transition-delay: 320ms !important;
+      width: auto !important;
+      white-space: nowrap !important;
+      pointer-events: none !important;
+    }
+    .mob-nav.open .mob-nav-footer {
+      opacity: 1 !important;
+      transform: translate3d(-50%, 0, 0) !important;
+      pointer-events: auto !important;
+    }
+    .mob-nav-legal {
+      min-height: 44px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-family: 'Jost', sans-serif !important;
+      font-size: 10px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.22em !important;
+      text-transform: uppercase !important;
+      text-decoration: none !important;
+      color: rgba(30,28,29,0.75) !important;
+      transition: color 0.25s ease, opacity 0.25s ease !important;
+      opacity: 1 !important;
+    }
+    .mob-nav-legal:hover,
+    .mob-nav-legal:active {
+      color: #1e1c1d !important;
     }
 
     #hero {
@@ -2548,10 +2663,11 @@
 
     @media (max-width: 768px) {
       #company {
-        height: auto !important;
-        min-height: calc(100vh - 500px) !important;
-        min-height: calc(100dvh - 500px) !important;
-        overflow: hidden !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
         padding-top: calc(env(safe-area-inset-top, 0px) + 168px) !important;
         padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px) !important;
       }
@@ -2738,16 +2854,20 @@
     }
 
     #ventures {
-      display: block !important;
-      width: 100% !important;
-      height: auto !important;
+      display: flex !important;
+      flex-direction: row !important;
+      width: 400vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      flex: 0 0 400vw !important;
+      overflow: hidden !important;
     }
     .venture-panel {
-      width: 100% !important;
+      width: 100vw !important;
       height: 100vh !important;
       height: 100dvh !important;
       min-height: 560px !important;
-      flex-shrink: unset !important;
+      flex: 0 0 100vw !important;
       position: relative !important;
       display: flex !important;
       flex-direction: column !important;
@@ -2763,20 +2883,31 @@
     .venture-bg { position: absolute !important; inset: 0 !important; background-size: cover !important; }
     .venture-card-content {
       position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: auto !important;
       z-index: 2 !important;
-      padding: 0 20px 52px !important;
+      padding: 0 24px 52px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
     .venture-intro-wrap {
       position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: auto !important;
       z-index: 2 !important;
       padding: 0 24px 52px !important;
-      left: auto !important; right: auto !important; bottom: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
     .venture-big-num {
-      font-size: clamp(60px, 17vw, 88px) !important;
-      top: 20px !important;
+      font-size: clamp(90px, 25vw, 132px) !important;
+      top: 88px !important;
       bottom: auto !important;
-      left: 18px !important;
+      left: 22px !important;
     }
     .venture-intro-h { font-size: clamp(28px, 9vw, 48px) !important; }
     .venture-title { font-size: clamp(26px, 8vw, 40px) !important; }
@@ -2786,18 +2917,20 @@
 
     #philosophy {
       display: block !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 0 !important;
+      overflow-y: hidden !important;
     }
     .philosophy-intro {
-      padding: 96px 28px 36px !important;
+      padding: 92px 28px 28px !important;
       width: 100% !important;
       height: auto !important;
     }
     .philosophy-rows {
       display: flex !important;
       flex-direction: column !important;
-      padding: 0 0 56px !important;
+      padding: 6px 0 68px !important;
       width: 100% !important;
       height: auto !important;
       flex: unset !important;
@@ -2805,25 +2938,41 @@
     .phil-row {
       flex: unset !important;
       height: auto !important;
-      min-height: 80px !important;
+      min-height: 82px !important;
       padding: 16px 28px !important;
-      gap: 16px !important;
+      gap: 18px !important;
       border-top: 1px solid rgba(255,255,255,0.10) !important;
       border-bottom: none !important;
+      display: flex !important;
       align-items: center !important;
     }
     .phil-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.10) !important; }
     .phil-num {
-      font-size: clamp(40px, 10vw, 60px) !important;
-      width: 64px !important;
-      line-height: 0.9 !important;
-      transform: none !important;
+      font-size: clamp(50px, 12vw, 74px) !important;
+      width: 56px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      line-height: 1 !important;
+      transform: translateY(2px) !important;
+      margin-left: -10px !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
-    .phil-text { font-size: 14px !important; line-height: 1.55 !important; }
+    .phil-text {
+      font-size: 14px !important;
+      display: flex !important;
+      align-items: center !important;
+      line-height: 1.45 !important;
+      margin: 0 !important;
+    }
 
     #leadership {
       display: block !important;
-      height: auto !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
     }
     .leadership-left {
       padding: 96px 28px 36px !important;
@@ -2876,13 +3025,204 @@
     .person-role { font-size: 10px !important; letter-spacing: 0.12em !important; margin-bottom: 8px !important; }
     .person-bio { font-size: 12px !important; line-height: 1.65 !important; max-height: none !important; }
 
+    @media (max-width: 768px) {
+      #leadership {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      .leadership-right {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 0 96px !important;
+        gap: 0 !important;
+      }
+      .person-card {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        background: var(--warm-white) !important;
+        border-top: 1px solid rgba(0,0,0,0.08) !important;
+        border-right: none !important;
+        transition: none !important;
+      }
+      .person-card:last-child {
+        border-bottom: none !important;
+      }
+      .person-photo-wrap {
+        width: 100% !important;
+        height: 208px !important;
+        flex: none !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        transition: height 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .person-photo-wrap::after {
+        display: none !important;
+      }
+      .person-photo {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 0.32s ease,
+                    object-position 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .person-info {
+        position: relative !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        max-width: none !important;
+        padding: 20px 24px 26px !important;
+        background: var(--warm-white) !important;
+        transform: none !important;
+        cursor: pointer !important;
+      }
+      .person-name {
+        font-size: clamp(30px, 8.6vw, 36px) !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        text-align: center !important;
+        color: var(--black) !important;
+      }
+      .person-role {
+        font-size: 9px !important;
+        letter-spacing: 0.22em !important;
+        margin: 8px 0 0 !important;
+        text-align: center !important;
+        color: var(--primary) !important;
+      }
+      .person-accordion-arrow {
+        display: block !important;
+        width: 14px !important;
+        height: 14px !important;
+        margin: 16px auto 0 !important;
+        position: relative !important;
+        opacity: 0.55 !important;
+        transition: transform 0.35s ease !important;
+      }
+      .person-accordion-arrow::before,
+      .person-accordion-arrow::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 6px !important;
+        width: 8px !important;
+        height: 1px !important;
+        background: var(--text-body) !important;
+      }
+      .person-accordion-arrow::before {
+        left: 0 !important;
+        transform: rotate(45deg) !important;
+      }
+      .person-accordion-arrow::after {
+        right: 0 !important;
+        transform: rotate(-45deg) !important;
+      }
+      .person-bio {
+        display: block !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        font-size: 14px !important;
+        line-height: 1.75 !important;
+        color: var(--text-body) !important;
+        text-align: left !important;
+        opacity: 0 !important;
+        transition: max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.26s ease,
+                    margin-top 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .person-card.is-open .person-photo-wrap {
+        height: 292px !important;
+      }
+      .person-card.is-open .person-photo {
+        object-position: center top !important;
+      }
+      .person-card.is-open .person-info {
+        padding: 24px 28px 36px !important;
+      }
+      .person-card.is-open .person-bio {
+        max-height: 420px !important;
+        margin-top: 24px !important;
+        opacity: 1 !important;
+      }
+      .person-card.is-open .person-accordion-arrow {
+        transform: rotate(180deg) !important;
+      }
+
+      /* Final mobile Leadership accordion image treatment overrides */
+      #leadership .person-photo {
+        transition:
+          transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+          filter 0.45s ease,
+          object-position 0.75s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        will-change: transform, filter, object-position;
+      }
+      #leadership .person-card:not(.is-open) .person-photo {
+        filter: grayscale(100%) brightness(1.04) contrast(0.95) !important;
+      }
+      #leadership .person-card:nth-child(1):not(.is-open) .person-photo {
+        object-position: center 34% !important;
+        transform: scale(1.55) !important;
+      }
+      #leadership .person-card:nth-child(2):not(.is-open) .person-photo {
+        object-position: center 34% !important;
+        transform: scale(1.55) !important;
+      }
+      #leadership .person-card:nth-child(3):not(.is-open) .person-photo {
+        object-position: center 35% !important;
+        transform: scale(1.5) !important;
+      }
+      #leadership .person-card.is-open .person-photo-wrap {
+        height: 330px !important;
+        overflow: hidden !important;
+      }
+      #leadership .person-card.is-open .person-photo {
+        width: 100% !important;
+        height: 100% !important;
+        filter: grayscale(0%) brightness(1) contrast(1) !important;
+        object-fit: cover !important;
+        transform-origin: center center !important;
+      }
+      #leadership .person-card:nth-child(1).is-open .person-photo {
+        transform: scale(1.48) translateY(8px) !important;
+        object-position: center 32% !important;
+      }
+      #leadership .person-card:nth-child(2).is-open .person-photo {
+        transform: scale(1.45) translateY(4px) !important;
+        object-position: center 30% !important;
+      }
+      #leadership .person-card:nth-child(3).is-open .person-photo {
+        transform: scale(1.48) translateY(6px) !important;
+        object-position: center 32% !important;
+      }
+      #leadership .person-card:last-child {
+        border-bottom: none !important;
+      }
+    }
+
     #investors {
       display: block !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 0 !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
     }
-    .inv-left { padding: 96px 28px 40px !important; width: 100% !important; }
-    .inv-right { padding: 0 28px 64px !important; width: 100% !important; height: auto !important; }
+    .inv-left {
+      padding: 76px 28px 24px !important;
+      width: 100% !important;
+    }
+    .inv-right {
+      padding: 0 28px 52px !important;
+      width: 100% !important;
+      height: auto !important;
+    }
     .inv-timeline { flex: unset !important; }
     .inv-vline { left: 18px !important; }
     .inv-dot   { left: 18px !important; width: 7px !important; height: 7px !important; }
@@ -2890,42 +3230,382 @@
     .inv-row {
       flex: unset !important;
       height: auto !important;
-      min-height: 72px !important;
+      min-height: 66px !important;
       padding-left: 56px !important;
       gap: 14px !important;
     }
-    .inv-num   { font-size: clamp(34px, 8.5vw, 48px) !important; width: 52px !important; transform: none !important; line-height: 1 !important; }
-    .inv-item-text { font-size: 14px !important; line-height: 1.58 !important; }
+    .inv-num   { font-size: clamp(34px, 8.5vw, 48px) !important; width: 52px !important; transform: translateY(-5px) !important; line-height: 1 !important; }
+    .inv-item-text br { display: none !important; }
+    .inv-item-text {
+      font-size: 14px !important;
+      line-height: 1.55 !important;
+      max-width: 100% !important;
+      white-space: normal !important;
+    }
     .inv-title { font-size: clamp(24px, 7vw, 38px) !important; }
+    #investors .inv-cta {
+      display: none !important;
+    }
 
     #contact {
+      background: #1e1c1d !important;
       display: block !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      min-height: 0 !important;
+      overflow: hidden !important;
+      -webkit-overflow-scrolling: auto !important;
     }
-    .contact-left  { padding: 96px 28px 48px !important; width: 100% !important; }
-    .contact-right { padding: 36px 28px 64px !important; width: 100% !important; }
-    .contact-title { font-size: clamp(30px, 9vw, 44px) !important; }
-    .contact-intro { font-size: 14px !important; max-width: 100% !important; }
-    .form-row { grid-template-columns: 1fr !important; gap: 0 !important; }
-    .btn-submit { width: 100% !important; padding: 16px !important; box-sizing: border-box !important; }
+    #contact .contact-left,
+    #contact .contact-right {
+      display: none !important;
+    }
+    #contact .contact-mobile-shell {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+      padding: 92px 28px 72px !important;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(30,28,29,0) 28%),
+        #1e1c1d !important;
+      color: var(--warm-white) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    #contact .contact-mobile-shell::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 38px;
+      height: 88px;
+      opacity: 0.06;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 100%, rgba(214,194,160,0.7) 0 1px, transparent 1.5px),
+        linear-gradient(90deg, transparent 0%, rgba(214,194,160,0.55) 18%, rgba(214,194,160,0.28) 50%, rgba(214,194,160,0.55) 82%, transparent 100%);
+      clip-path: polygon(0 100%, 8% 74%, 15% 86%, 23% 62%, 32% 78%, 43% 50%, 56% 72%, 69% 44%, 81% 66%, 92% 52%, 100% 100%);
+    }
+    #contact .contact-mobile-header {
+      position: relative;
+      z-index: 1;
+      flex: 0 0 auto;
+    }
+    #contact .contact-mobile-header .eyebrow {
+      margin-bottom: 24px !important;
+      color: rgba(245,242,239,0.62) !important;
+    }
+    #contact .contact-mobile-header .eyebrow::before {
+      background: rgba(214,194,160,0.58) !important;
+    }
+    #contact .contact-mobile-header .contact-title {
+      font-size: clamp(34px, 10vw, 48px) !important;
+      line-height: 1.02 !important;
+      letter-spacing: -0.02em !important;
+      color: rgba(245,242,239,0.84) !important;
+      margin-bottom: 18px !important;
+    }
+    #contact .contact-mobile-header .contact-title span {
+      color: rgba(245,242,239,0.96) !important;
+    }
+    #contact .contact-mobile-header .contact-intro {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255,255,255,0.58) !important;
+      max-width: 100% !important;
+      margin-bottom: 0 !important;
+    }
+    #contact .contact-tabs {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 34px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      flex: 0 0 auto;
+    }
+    #contact .contact-tab {
+      appearance: none;
+      background: none;
+      border: none;
+      border-bottom: 1px solid transparent;
+      border-radius: 0;
+      padding: 0 0 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      text-align: left;
+    }
+    #contact .contact-tab.active {
+      color: rgba(245,242,239,0.92);
+      border-bottom-color: rgba(214,194,160,0.92);
+    }
+    #contact .contact-mobile-panels {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin-top: 24px;
+    }
+    #contact .contact-mobile-panel {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.32s ease, transform 0.32s ease;
+      height: 100%;
+    }
+    #contact .contact-mobile-panel.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #contact .contact-mobile-panel--details {
+      padding-bottom: 24px;
+    }
+    #contact .contact-mobile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    #contact .contact-mobile-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 18px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    #contact .contact-mobile-item:first-child {
+      padding-top: 6px;
+      border-top: none;
+    }
+    #contact .contact-mobile-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,242,239,0.14);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #contact .contact-mobile-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: rgba(214,194,160,0.82);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #contact .contact-mobile-copy {
+      min-width: 0;
+    }
+    #contact .contact-mobile-copy .contact-item-label {
+      margin-bottom: 8px;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      color: rgba(245,242,239,0.48) !important;
+    }
+    #contact .contact-mobile-copy .contact-item-value {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(245,242,239,0.84) !important;
+    }
+    #contact .contact-mobile-copy .contact-item-value a {
+      color: inherit;
+      text-decoration: none;
+    }
+    #contact .contact-mobile-disclaimer {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.36);
+    }
+    #contact .contact-mobile-panel--form {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 20px;
+      scrollbar-width: none;
+    }
+    #contact .contact-mobile-panel--form::-webkit-scrollbar {
+      display: none;
+    }
+    #contact .contact-mobile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-right: 2px;
+    }
+    #contact .contact-mobile-form .form-row {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    #contact .contact-mobile-form .form-group {
+      margin-bottom: 14px !important;
+    }
+    #contact .contact-mobile-form .form-group label {
+      font-size: 9px !important;
+      letter-spacing: 0.22em !important;
+      color: rgba(245,242,239,0.48) !important;
+      margin-bottom: 10px !important;
+    }
+    #contact .contact-mobile-form .form-group input,
+    #contact .contact-mobile-form .form-group select,
+    #contact .contact-mobile-form .form-group textarea {
+      font-size: 16px !important;
+      color: rgba(245,242,239,0.94) !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(255,255,255,0.16) !important;
+      background: transparent !important;
+      padding: 11px 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    #contact .contact-mobile-form .form-group input::placeholder,
+    #contact .contact-mobile-form .form-group select,
+    #contact .contact-mobile-form .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.34) !important;
+    }
+    #contact .contact-mobile-form .form-group select option {
+      color: #1e1c1d;
+    }
+    #contact .contact-mobile-form .form-group input:focus,
+    #contact .contact-mobile-form .form-group select:focus,
+    #contact .contact-mobile-form .form-group textarea:focus {
+      border-bottom-color: rgba(214,194,160,0.72) !important;
+    }
+    #contact .contact-mobile-form .form-group textarea {
+      min-height: 92px !important;
+      height: 92px !important;
+      resize: none !important;
+    }
+    #contact .contact-mobile-form .btn-submit {
+      width: 100% !important;
+      min-height: 52px !important;
+      margin-top: 10px !important;
+      padding: 15px 20px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 12px !important;
+      background: linear-gradient(90deg, #d6c2a0 0%, #eadcc4 100%) !important;
+      border: 1px solid rgba(234,220,196,0.96) !important;
+      color: #1e1c1d !important;
+      letter-spacing: 0.18em !important;
+      box-sizing: border-box !important;
+    }
+    #contact .contact-mobile-form .btn-submit::after {
+      content: '';
+      width: 14px;
+      height: 14px;
+      border-top: 1.5px solid currentColor;
+      border-right: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(1px);
+      flex-shrink: 0;
+    }
 
     footer {
-      position: relative !important;
-      bottom: auto !important; left: auto !important; right: auto !important;
+      position: fixed !important;
+      bottom: 0 !important; left: 0 !important; right: auto !important;
       width: 100% !important;
-      height: auto !important;
-      padding: 16px 24px !important;
-      justify-content: center !important;
+      height: 40px !important;
+      padding: 0 18px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
       background: var(--warm-white) !important;
       border-top: 1px solid rgba(0,0,0,0.07) !important;
     }
     footer.dark {
-      background: var(--text-body) !important;
-      border-top: 1px solid rgba(255,255,255,0.06) !important;
+      background: var(--warm-white) !important;
+      color: var(--text-body) !important;
+      border-top: 1px solid rgba(0,0,0,0.07) !important;
     }
-    .footer-left, .footer-right { display: none !important; }
-    .footer-center { display: flex !important; }
+    .footer-left {
+      display: block !important;
+      font-size: 8px !important;
+      letter-spacing: 0.10em !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+      max-width: 58% !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      flex: 0 1 auto !important;
+      transform: translateY(-3px) !important;
+    }
+    .footer-center {
+      position: static !important;
+      left: auto !important;
+      transform: none !important;
+      display: flex !important;
+      margin-left: auto !important;
+      flex: 0 0 auto !important;
+      transform: translateY(-3px) !important;
+    }
+    .ste-text {
+      font-size: 8px !important;
+      letter-spacing: 0.18em !important;
+      line-height: 1 !important;
+    }
+    .ste-wrap {
+      gap: 10px !important;
+      align-items: center !important;
+    }
+    .ste-arrow {
+      width: 16px !important;
+      height: 1px !important;
+    }
+    .ste-arrow::after {
+      width: 5px !important;
+      height: 5px !important;
+      top: -2px !important;
+    }
+    .footer-right { display: none !important; }
+
+    #philosophy .philosophy-rows {
+      padding: 18px 0 68px !important;
+      transform: translateY(-10px) !important;
+    }
+
+    #philosophy .phil-row {
+      display: grid !important;
+      grid-template-columns: 84px 1fr !important;
+      align-items: center !important;
+      min-height: 84px !important;
+      height: 84px !important;
+      padding: 0 28px !important;
+      gap: 20px !important;
+    }
+
+    #philosophy .phil-num {
+      width: 84px !important;
+      height: 92px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      font-size: clamp(56px, 14vw, 78px) !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      transform: translateY(-10px) !important;
+    }
+
+    #philosophy .phil-text {
+      height: 92px !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 14px !important;
+      line-height: 1.45 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════════
@@ -3026,6 +3706,256 @@
     footer { padding: 18px 40px !important; }
   }
 
+  @media (max-width: 750px) {
+    #company {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 112px) !important;
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 118px) !important;
+    }
+
+    #company .co-editorial {
+      padding-left: 26px !important;
+      padding-right: 26px !important;
+      padding-bottom: 190px !important;
+      transform: translateY(90px) !important;
+    }
+
+    #company .co-editorial .eyebrow {
+      display: none !important;
+    }
+
+    #company .co-editorial .section-title {
+      font-size: clamp(36px, 10.4vw, 46px) !important;
+      line-height: 1.02 !important;
+      margin-bottom: 22px !important;
+      padding-bottom: 0.14em !important;
+    }
+
+    #company .co-editorial .lead-text {
+      font-size: 15px !important;
+      line-height: 1.68 !important;
+      margin-bottom: 22px !important;
+      max-width: 350px !important;
+    }
+
+    #company .co-editorial .body-text {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      margin-bottom: 20px !important;
+      max-width: 360px !important;
+    }
+
+    #company .co-editorial .pull-quote {
+      margin-top: 26px !important;
+      margin-bottom: 0 !important;
+      padding-left: 22px !important;
+      max-width: 340px !important;
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+    }
+
+    #company .co-img-wrap .co-atmosphere,
+    #company > .co-atmosphere {
+      display: none !important;
+    }
+
+    #company .co-mobile-metrics {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 82px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 0.72fr 0.95fr 1.05fr 1.35fr;
+      width: 100%;
+      padding: 24px 22px 0;
+      border-top: 1px solid rgba(249,248,246,0.14);
+      pointer-events: none;
+      user-select: none;
+      column-gap: 8px;
+      align-items: start;
+      overflow: visible;
+    }
+
+    #company .co-mobile-metric {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      min-width: 0;
+      text-align: left;
+    }
+
+    #company .co-mobile-metric-value {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6vw, 28px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      color: rgba(249,248,246,0.54);
+      white-space: nowrap;
+    }
+
+    #company .co-mobile-metric-value--wide {
+      font-size: clamp(20px, 4.8vw, 23px);
+      letter-spacing: -0.03em;
+    }
+
+    #company .co-mobile-metric-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 8px;
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(249,248,246,0.38);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    #company .co-mobile-metric-label span {
+      display: block;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    #hero .hero-title-line1,
+    #hero .hero-title-line2,
+    #company .co-editorial .section-title,
+    #ventures .venture-intro-h,
+    #ventures .venture-title,
+    #philosophy .section-title,
+    #leadership .section-title,
+    #investors .inv-title,
+    #contact .contact-mobile-header .contact-title {
+      font-size: clamp(2.4rem, 7vw, 3rem) !important;
+      line-height: 0.95 !important;
+      letter-spacing: -0.03em !important;
+    }
+
+    #hero .hero-title-line1,
+    #hero .hero-title-line2,
+    #investors .inv-title {
+      font-size: clamp(2.2rem, 6.6vw, 2.8rem) !important;
+    }
+
+    #hero .hero-title-line2,
+    #investors .inv-title em {
+      white-space: nowrap !important;
+    }
+
+    #company .co-editorial .section-title,
+    #philosophy .section-title,
+    #leadership .section-title,
+    #investors .inv-title,
+    #contact .contact-mobile-header .contact-title {
+      margin-bottom: 24px !important;
+    }
+
+    #hero .hero-left,
+    #company .co-editorial,
+    #ventures .venture-intro-wrap,
+    #ventures .venture-card-content,
+    #philosophy .philosophy-intro,
+    #leadership .leadership-left,
+    #investors .inv-left,
+    #contact .contact-mobile-header {
+      text-align: left !important;
+    }
+
+    #contact .contact-mobile-header .eyebrow {
+      color: var(--primary-pale) !important;
+    }
+    #contact .contact-mobile-header .eyebrow::before {
+      background: var(--primary) !important;
+    }
+    #contact .contact-mobile-header .contact-title {
+      color: var(--primary) !important;
+    }
+    #contact .contact-mobile-header .contact-title span {
+      color: var(--warm-white) !important;
+    }
+    #contact .contact-tabs {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 0 !important;
+      border-bottom-color: rgba(255,255,255,0.06) !important;
+    }
+    #contact .contact-tab {
+      width: 100% !important;
+      color: var(--primary) !important;
+      text-align: center !important;
+      border-bottom: 1px solid transparent !important;
+    }
+    #contact .contact-tab.active {
+      color: var(--warm-white) !important;
+      border-bottom-color: rgba(245,242,239,0.72) !important;
+    }
+    #contact .contact-mobile-item,
+    #contact .contact-mobile-disclaimer {
+      border-top-color: var(--primary-pale) !important;
+    }
+    #contact .contact-mobile-item {
+      border-top-color: rgba(255,255,255,0.04) !important;
+    }
+    #contact .contact-mobile-item:last-child {
+      padding-bottom: 10px !important;
+    }
+    #contact .contact-mobile-icon {
+      width: auto !important;
+      height: auto !important;
+      border: none !important;
+      border-radius: 0 !important;
+      display: inline-flex !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
+    #contact .contact-mobile-icon svg {
+      width: 26px !important;
+      height: 26px !important;
+      stroke-width: 1.1 !important;
+      stroke: rgba(245,242,239,0.42) !important;
+      opacity: 0.55 !important;
+    }
+    #contact .contact-mobile-copy .contact-item-label,
+    #contact .contact-mobile-form .form-group label {
+      color: var(--primary) !important;
+    }
+    #contact .contact-mobile-disclaimer {
+      margin-top: 10px !important;
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    #contact .contact-mobile-form .form-group input,
+    #contact .contact-mobile-form .form-group select,
+    #contact .contact-mobile-form .form-group textarea {
+      border-bottom-color: rgba(255,255,255,0.08) !important;
+    }
+    #contact .contact-mobile-form .form-group input:focus,
+    #contact .contact-mobile-form .form-group select:focus,
+    #contact .contact-mobile-form .form-group textarea:focus {
+      border-bottom-color: var(--primary) !important;
+    }
+    #contact .contact-mobile-form .btn-submit {
+      background: var(--warm-white) !important;
+      border-color: var(--warm-white) !important;
+      color: var(--text-body) !important;
+      justify-content: center !important;
+      text-align: center !important;
+      gap: 0 !important;
+    }
+    #contact .contact-mobile-form .btn-submit:hover {
+      background: var(--cream) !important;
+      border-color: var(--cream) !important;
+    }
+    #contact .contact-mobile-form .btn-submit::after {
+      display: none !important;
+      content: none !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -3075,6 +4005,10 @@
       <a class="mob-link" href="#leadership">Leadership</a>
       <a class="mob-link" href="#investors">Investors</a>
       <a class="mob-link" href="#contact">Contact</a>
+    </div>
+    <div class="mob-nav-footer" aria-label="Legal navigation">
+      <a class="mob-nav-legal" href="/terms">Terms</a>
+      <a class="mob-nav-legal" href="/privacy">Privacy</a>
     </div>
   </div>
 
@@ -3156,6 +4090,25 @@
       <p class="body-text co-anim co-anim--d4">D6 Hospitality Ventures bridges the gap between vision and execution. We work with <span class="txt-accent">developers</span> who understand potential, <span class="txt-accent">investors</span> who think long-term, and <span class="txt-accent">global brands</span> seeking strategic expansion.</p>
       <p class="body-text co-anim co-anim--d5">Our approach is disciplined: <span class="txt-accent">strategic positioning</span>, <span class="txt-accent">design excellence</span>, and <span class="txt-accent">operational clarity</span> from day one. No shortcuts. No guesswork.</p>
       <p class="pull-quote co-anim co-anim--d6">Assets that command their market. Returns that reflect <span class="txt-accent">true value</span>. <span class="txt-accent">Partnerships</span> built to last.</p>
+    </div>
+
+    <div class="co-mobile-metrics" aria-hidden="true">
+      <div class="co-mobile-metric">
+        <div class="co-mobile-metric-value">3</div>
+        <div class="co-mobile-metric-label"><span>Asset</span><span>Classes</span></div>
+      </div>
+      <div class="co-mobile-metric">
+        <div class="co-mobile-metric-value">4</div>
+        <div class="co-mobile-metric-label"><span>Partnership</span><span>Models</span></div>
+      </div>
+      <div class="co-mobile-metric">
+        <div class="co-mobile-metric-value">Global</div>
+        <div class="co-mobile-metric-label"><span>Brand</span><span>Network</span></div>
+      </div>
+      <div class="co-mobile-metric">
+        <div class="co-mobile-metric-value co-mobile-metric-value--wide">Asia&#8202;Pacific</div>
+        <div class="co-mobile-metric-label"><span>Primary</span><span>Focus</span></div>
+      </div>
     </div>
 
   </div>
@@ -3296,7 +4249,8 @@
           <div class="person-initials">SD</div>
           <div class="person-name">Saurabh Dabas</div>
           <div class="person-role">Founder &amp; Managing Director</div>
-          <p class="person-bio">Founder and Managing Director of D6 Hospitality Ventures, a platform focused on the development of luxury hospitality, dining and lifestyle assets. He established D6 with the vision of building disciplined, design-led and culturally relevant hospitality ventures that combine long term asset value with refined guest experiences.</p>
+          <div class="person-accordion-arrow" aria-hidden="true"></div>
+          <p class="person-bio" id="person-bio-saurabh">Founder and Managing Director of D6 Hospitality Ventures, a platform focused on the development of luxury hospitality, dining and lifestyle assets. He established D6 with the vision of building disciplined, design-led and culturally relevant hospitality ventures that combine long term asset value with refined guest experiences.</p>
         </div>
       </div>
       <div class="person-card sec-anim sec-anim--d4">
@@ -3307,7 +4261,8 @@
           <div class="person-initials">RK</div>
           <div class="person-name">Rajesh Kumar</div>
           <div class="person-role">Director</div>
-          <p class="person-bio">A hospitality professional with nearly three decades of experience across hotel operations, governance, business development and luxury hospitality standards. His approach combines operational discipline with structured business thinking, ensuring hospitality assets are aligned across design, positioning, guest experience and commercial sustainability.</p>
+          <div class="person-accordion-arrow" aria-hidden="true"></div>
+          <p class="person-bio" id="person-bio-rajesh">A hospitality professional with nearly three decades of experience across hotel operations, governance, business development and luxury hospitality standards. His approach combines operational discipline with structured business thinking, ensuring hospitality assets are aligned across design, positioning, guest experience and commercial sustainability.</p>
         </div>
       </div>
       <div class="person-card sec-anim sec-anim--d5">
@@ -3318,7 +4273,8 @@
           <div class="person-initials">SM</div>
           <div class="person-name">Suryaansh Malhan</div>
           <div class="person-role">Head of Business Operations</div>
-          <p class="person-bio">With a background in Computer Science Engineering and a contemporary approach to systems and process thinking, he supports operational efficiency, workflow alignment and evolving hospitality experiences across the platform. His role focuses on execution support, process refinement, technology integration and day to day operational coordination.</p>
+          <div class="person-accordion-arrow" aria-hidden="true"></div>
+          <p class="person-bio" id="person-bio-suryaansh">With a background in Computer Science Engineering and a contemporary approach to systems and process thinking, he supports operational efficiency, workflow alignment and evolving hospitality experiences across the platform. His role focuses on execution support, process refinement, technology integration and day to day operational coordination.</p>
         </div>
       </div>
     </div>
@@ -3382,6 +4338,104 @@
 
   <!-- PANEL 7: CONTACT -->
   <div class="panel" id="contact">
+    <div class="contact-mobile-shell" aria-hidden="true">
+      <div class="contact-mobile-header">
+        <div class="eyebrow">Get In Touch</div>
+        <h2 class="contact-title">Start A<br><span>Conversation</span></h2>
+        <p class="contact-intro">Whether you're a developer, investor, brand or operator - if you're serious about luxury hospitality development, let's connect.</p>
+      </div>
+      <div class="contact-tabs" role="tablist" aria-label="Contact options">
+        <button class="contact-tab active" type="button" role="tab" id="contactTabDetails" aria-selected="true" aria-controls="contactPanelDetails">Contact Details</button>
+        <button class="contact-tab" type="button" role="tab" id="contactTabForm" aria-selected="false" aria-controls="contactPanelForm">Send Enquiry</button>
+      </div>
+      <div class="contact-mobile-panels">
+        <div class="contact-mobile-panel contact-mobile-panel--details active" id="contactPanelDetails" role="tabpanel" aria-labelledby="contactTabDetails">
+          <div class="contact-mobile-list">
+            <div class="contact-mobile-item">
+              <span class="contact-mobile-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 21s6-5.33 6-11a6 6 0 1 0-12 0c0 5.67 6 11 6 11Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              </span>
+              <div class="contact-mobile-copy">
+                <div class="contact-item-label">Address</div>
+                <div class="contact-item-value">7, Lally Tollendal Street<br>White Town, Puducherry - 605001</div>
+              </div>
+            </div>
+            <div class="contact-mobile-item">
+              <span class="contact-mobile-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6.7 3.8h2.9l1.5 4.2-1.9 1.7a14.8 14.8 0 0 0 5.1 5.1l1.7-1.9 4.2 1.5v2.9a1.8 1.8 0 0 1-1.9 1.8A15.6 15.6 0 0 1 4.9 5.7 1.8 1.8 0 0 1 6.7 3.8Z"></path></svg>
+              </span>
+              <div class="contact-mobile-copy">
+                <div class="contact-item-label">Phone</div>
+                <div class="contact-item-value"><a href="tel:+919789944436">+91 97899 44436</a></div>
+              </div>
+            </div>
+            <div class="contact-mobile-item">
+              <span class="contact-mobile-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7.5 12 13l8-5.5"></path><rect x="3.5" y="6" width="17" height="12" rx="2"></rect></svg>
+              </span>
+              <div class="contact-mobile-copy">
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-value"><a href="mailto:info@d6hospitality.com">info@d6hospitality.com</a></div>
+              </div>
+            </div>
+            <div class="contact-mobile-item">
+              <span class="contact-mobile-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c2.7 2.3 4.2 5.3 4.2 8.5S14.7 18.2 12 20.5c-2.7-2.3-4.2-5.3-4.2-8.5S9.3 5.8 12 3.5Z"></path></svg>
+              </span>
+              <div class="contact-mobile-copy">
+                <div class="contact-item-label">Web</div>
+                <div class="contact-item-value"><a href="https://www.d6hospitality.com">www.d6hospitality.com</a></div>
+              </div>
+            </div>
+          </div>
+          <p class="contact-mobile-disclaimer">All enquiries are non-binding and subject to further evaluation and formal agreements.</p>
+        </div>
+        <div class="contact-mobile-panel contact-mobile-panel--form" id="contactPanelForm" role="tabpanel" aria-labelledby="contactTabForm" hidden>
+          <div class="contact-mobile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Surname">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="you@company.com">
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" placeholder="+91 00000 00000">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Enquiry Type</label>
+              <select>
+                <option value="">Select type</option>
+                <option>Development Partnership</option>
+                <option>Investment Opportunity</option>
+                <option>Brand Licensing</option>
+                <option>Advisory Services</option>
+                <option>General Enquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Organisation</label>
+              <input type="text" placeholder="Company or organisation">
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea placeholder="Describe your interest or enquiry..."></textarea>
+            </div>
+            <button class="btn-submit" type="button">Submit Enquiry</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="contact-left">
       <div>
         <div class="eyebrow sec-anim sec-anim--d1">Get In Touch</div>
@@ -3566,8 +4620,7 @@ const NAV_MAP = [0, 1, 2, 2, 2, 2, 3, 4, 5, 6];
    Layout: Hero(100vw) | Company(100vw) | Ventures(100vw) | Philosophy(100vw)... */
 function getStopPositions() {
   const vw = window.innerWidth;
-  const isMobile = vw <= 750;
-  if (isMobile) {
+  if (isMobile()) {
     // Mobile: ventures is 4 × 100vw, all stops equally spaced
     return Array.from({ length: TOTAL_STOPS }, (_, i) => i * vw);
   }
@@ -3613,16 +4666,23 @@ function updateUI() {
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.classList.toggle('active', parseInt(a.dataset.panel) === navIndex);
   });
+  const mobilePanelIds = ['hero', 'company', 'ventures', 'philosophy', 'leadership', 'investors', 'contact'];
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.classList.toggle('mob-link--active',
+      link.getAttribute('href') === '#' + mobilePanelIds[navIndex]);
+  });
   nav.classList.toggle('transparent', currentStop === 0);
   const darkStops = [0, 2, 3, 4, 5];
   footer.classList.toggle('dark', darkStops.includes(currentStop));
-  document.getElementById('d6-cursor').classList.toggle('light', darkStops.includes(currentStop));
+  const cursorEl = document.getElementById('d6-cursor');
+  if (cursorEl) {
+    cursorEl.classList.toggle('light', darkStops.includes(currentStop));
+  }
   const progress = (currentStop / (TOTAL_STOPS - 1)) * 100;
   progressBar.style.width = progress + '%';
   if (currentStop === 1) animateCompany();
   if (currentStop >= 2 && currentStop <= 5) {
-    const isMobile = window.innerWidth <= 750;
-    if (isMobile) animateVenturePanelMobile(currentStop);
+    if (isMobile()) animateVenturePanelMobile(currentStop);
     else setActiveVenture(currentStop - 2, false);
   }
   if (currentStop === 6)  animateSection('philosophy');
@@ -3662,30 +4722,32 @@ window.addEventListener('keydown', (e) => {
 });
 
 let touchStartX = 0;
-window.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+window.addEventListener('touchmove', (e) => {
+  if (!isMobile()) return;
+  const dx = Math.abs(touchStartX - e.touches[0].clientX);
+  const dy = Math.abs(touchStartY - e.touches[0].clientY);
+  if (dx > dy && dx > 8) e.preventDefault();
+}, { passive: false });
 window.addEventListener('touchend',   (e) => {
-  if (isMobile()) return;  /* mobile uses native vertical scroll */
   const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 60) scrollToStop(diff > 0 ? currentStop + 1 : currentStop - 1);
-});
-
-/* On resize — recalculate desktop offset OR clear transform on mobile */
-window.addEventListener('resize', () => {
-  if (isMobile()) {
-    wrapper.style.transform  = 'none';
-    wrapper.style.transition = 'none';
-  } else {
-    scrollToStop(currentStop, false);
+  const yDiff = Math.abs(touchStartY - e.changedTouches[0].clientY);
+  if (Math.abs(diff) > 60 && Math.abs(diff) > yDiff) {
+    scrollToStop(diff > 0 ? currentStop + 1 : currentStop - 1);
   }
 });
 
-/* Init — desktop uses horizontal scroll position; mobile uses native flow */
-if (isMobile()) {
-  wrapper.style.transform  = 'none';
-  wrapper.style.transition = 'none';
-} else {
-  scrollToStop(0, false);
-}
+/* On resize — recalculate horizontal offset for the active stop */
+window.addEventListener('resize', () => {
+  scrollToStop(currentStop, false);
+});
+
+/* Init — horizontal scroll position on all breakpoints */
+scrollToStop(0, false);
 
 /* ══════════════════════════════════════════════════
    MOBILE NAVIGATION — hamburger open / close / scroll
@@ -3722,13 +4784,19 @@ if (isMobile()) {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const targetId = link.getAttribute('href').replace('#', '');
-      const target   = document.getElementById(targetId);
+      const targetMap = {
+        hero: 0,
+        company: 1,
+        ventures: 2,
+        philosophy: 3,
+        leadership: 4,
+        investors: 5,
+        contact: 6,
+      };
       closeMobNav();
-      if (target) {
+      if (targetId in targetMap) {
         setTimeout(() => {
-          const navHeight = 60;
-          const top = target.getBoundingClientRect().top + window.scrollY - navHeight;
-          window.scrollTo({ top, behavior: 'smooth' });
+          scrollToPanel(targetMap[targetId]);
         }, 380);
       }
     });
@@ -3821,6 +4889,181 @@ if (isMobile()) {
     nav.classList.toggle('transparent', window.scrollY < heroHeight * 0.6);
   }, { passive: true });
 
+})();
+
+(function initLeadershipMobileCards() {
+  const mobileQuery = window.matchMedia('(max-width: 768px), (max-width: 1024px) and (orientation: portrait)');
+  const leadership = document.getElementById('leadership');
+  if (!leadership) return;
+
+  const cards = Array.from(leadership.querySelectorAll('.person-card'));
+  if (!cards.length) return;
+
+  function setOpenCard(nextCard) {
+    cards.forEach((card) => {
+      const info = card.querySelector('.person-info');
+      const bio = card.querySelector('.person-bio');
+      const isOpen = card === nextCard;
+      card.classList.toggle('is-open', isOpen);
+      if (info) info.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (bio) bio.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    });
+  }
+
+  function syncLeadershipCards() {
+    cards.forEach((card) => {
+      const bio = card.querySelector('.person-bio');
+      const info = card.querySelector('.person-info');
+      if (!bio || !info) return;
+
+      if (!mobileQuery.matches) {
+        card.classList.remove('is-open');
+        info.removeAttribute('role');
+        info.removeAttribute('tabindex');
+        info.removeAttribute('aria-expanded');
+        info.removeAttribute('aria-controls');
+        bio.removeAttribute('aria-hidden');
+        return;
+      }
+
+      info.setAttribute('role', 'button');
+      info.setAttribute('tabindex', '0');
+      info.setAttribute('aria-controls', bio.id);
+      info.setAttribute('aria-expanded', card.classList.contains('is-open') ? 'true' : 'false');
+      bio.setAttribute('aria-hidden', card.classList.contains('is-open') ? 'false' : 'true');
+    });
+  }
+
+  cards.forEach((card) => {
+    const info = card.querySelector('.person-info');
+    if (!info) return;
+
+    const toggleCard = () => {
+      if (!mobileQuery.matches) return;
+      setOpenCard(card.classList.contains('is-open') ? null : card);
+    };
+
+    info.addEventListener('click', (event) => {
+      if (event.target.closest('.person-bio')) return;
+      toggleCard();
+    });
+
+    info.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      toggleCard();
+    });
+  });
+
+  syncLeadershipCards();
+  window.addEventListener('resize', () => {
+    if (!mobileQuery.matches) setOpenCard(null);
+    syncLeadershipCards();
+  });
+})();
+
+(function initContactMobileTabs() {
+  const mobileQuery = window.matchMedia('(max-width: 768px), (max-width: 1024px) and (orientation: portrait)');
+  const contact = document.getElementById('contact');
+  if (!contact) return;
+
+  const shell = contact.querySelector('.contact-mobile-shell');
+  const tabs = Array.from(contact.querySelectorAll('.contact-tab'));
+  const panels = Array.from(contact.querySelectorAll('.contact-mobile-panel'));
+  if (!shell || !tabs.length || !panels.length) return;
+
+  function setActiveContactTab(id) {
+    tabs.forEach((tab) => {
+      const isActive = tab.getAttribute('aria-controls') === id;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    panels.forEach((panel) => {
+      const isActive = panel.id === id;
+      panel.classList.toggle('active', isActive);
+      panel.hidden = !isActive;
+    });
+  }
+
+  function syncContactTabs() {
+    if (!mobileQuery.matches) {
+      shell.setAttribute('aria-hidden', 'true');
+      tabs.forEach((tab) => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach((panel) => {
+        panel.classList.remove('active');
+        panel.hidden = false;
+      });
+      return;
+    }
+
+    shell.setAttribute('aria-hidden', 'false');
+    setActiveContactTab('contactPanelDetails');
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      if (!mobileQuery.matches) return;
+      setActiveContactTab(tab.getAttribute('aria-controls'));
+    });
+  });
+
+  syncContactTabs();
+  window.addEventListener('resize', syncContactTabs);
+})();
+
+(function initMobileHeadingLineBreaks() {
+  const mobileQuery = window.matchMedia('(max-width: 768px) and (orientation: portrait)');
+  const heroLine1 = document.querySelector('#hero .hero-title-line1');
+  const heroLine2 = document.querySelector('#hero .hero-title-line2');
+  const investorsEm = document.querySelector('#investors .inv-title em');
+  if (!heroLine1 || !heroLine2 || !investorsEm) return;
+
+  const heroLine1Original = heroLine1.textContent;
+  const heroLine2Original = heroLine2.innerHTML;
+  const investorsOriginal = investorsEm.innerHTML;
+
+  function syncMobileHeadingLineBreaks() {
+    if (mobileQuery.matches) {
+      heroLine1.textContent = 'Building the Future';
+      heroLine2.innerHTML = 'of&nbsp;Luxury Hospitality';
+      investorsEm.innerHTML = 'In Luxury&nbsp;Hospitality';
+      return;
+    }
+
+    heroLine1.textContent = heroLine1Original;
+    heroLine2.innerHTML = heroLine2Original;
+    investorsEm.innerHTML = investorsOriginal;
+  }
+
+  syncMobileHeadingLineBreaks();
+  window.addEventListener('resize', syncMobileHeadingLineBreaks);
+})();
+
+(function initMobileFooterText() {
+  const mobileQuery = window.matchMedia('(max-width: 768px), (max-width: 1024px) and (orientation: portrait)');
+  const footerLeft = document.querySelector('#mainFooter .footer-left');
+  const footerText = document.querySelector('#mainFooter .ste-text');
+  if (!footerLeft || !footerText) return;
+
+  const footerLeftOriginal = footerLeft.textContent;
+  const footerTextOriginal = footerText.textContent;
+
+  function syncMobileFooterText() {
+    if (mobileQuery.matches) {
+      footerLeft.textContent = '© 2026 D6 Hospitality Ventures Pvt. Ltd.';
+      footerText.textContent = 'Swipe';
+      return;
+    }
+
+    footerLeft.textContent = footerLeftOriginal;
+    footerText.textContent = footerTextOriginal;
+  }
+
+  syncMobileFooterText();
+  window.addEventListener('resize', syncMobileFooterText);
 })();
 </script>
 
